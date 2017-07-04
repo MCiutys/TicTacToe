@@ -5,45 +5,66 @@
  */
 package tictactoe;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import javax.swing.JButton;
+import java.awt.image.BufferedImage;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JToggleButton;
 
 /**
  *
  * @author Mantas
  */
-public class Square extends JButton implements ActionListener {
+
+public class Square {
     
-    private int number;
+    private int index;
+    private JToggleButton button;
     private boolean isClicked;
     
-    public Square(int x) {
-        number = x;
+    public Square(int i) {
+        index = i;
+        button = new JToggleButton();
         isClicked = false;
+        
+        button.setBorderPainted(false);
+        button.setBorder(null);
+        
+        
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isClicked = !isClicked;
+                if (isClicked) {
+                    button.setIcon(draw());   
+                } else {
+                    button.setIcon(null); 
+                }
+            }   
+        });
+    }
+    
+    public JToggleButton getButton() {
+        return button;
+    }
+    
+    private Icon draw() {
+        BufferedImage img = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON); 
+        g2d.setStroke(new BasicStroke(5));
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(0, 0, 100, 100);
+        g2d.dispose();
+        return new ImageIcon(img);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        if (!isClicked) {
-            super.paintComponent(g);
-        } else {
-            System.out.println("EXECUTED for: " + number);
-            g2d.drawOval(this.getX(), this.getY(), 100, 100);
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        isClicked = !isClicked;
-        System.out.println(isClicked + " " + number);
-        repaint();
-    }
-  
+    
+    
 }

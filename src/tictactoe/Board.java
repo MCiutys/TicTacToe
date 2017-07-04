@@ -33,14 +33,10 @@ public class Board extends JPanel {
     public void addButtons() {
         squares = new Square[9];
         
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 9   ; i++) {
                 Square square = new Square(i);
-                square.setPreferredSize(new Dimension(30, 30));
-                square.addActionListener(square);
-                this.add(square);
+                this.add(square.getButton());
                 squares[i] = square;
-                ((GridLayout)this.getLayout()).setHgap(30);
-                ((GridLayout)this.getLayout()).setVgap(30);
         }
     }
     
@@ -50,19 +46,19 @@ public class Board extends JPanel {
     
     @Override
     protected void paintComponent(Graphics g) {
-//        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.7
-//        Graphics2D g2d = (Graphics2D) g;
-//        g2d.setStroke(new BasicStroke(STROKE_WIDTH));
-//        // Horiztontal lines
-//        g2d.drawLine(0, TicTacToe.HEIGHT / 3,
-//                BOARD_WIDTH, TicTacToe.HEIGHT / 3);
-//        g2d.drawLine(0, 2 * TicTacToe.HEIGHT / 3,
-//                BOARD_WIDTH, 2 * TicTacToe.HEIGHT / 3);
-//        // Vertical lines
-//        g2d.drawLine(BOARD_WIDTH / 3, 0, BOARD_WIDTH / 3,
-//                TicTacToe.HEIGHT);
-//        g2d.drawLine(2 * BOARD_WIDTH / 3, 0, 2 * BOARD_WIDTH / 3,
-//                TicTacToe.HEIGHT);
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(STROKE_WIDTH));
+        // Horiztontal lines
+        g2d.drawLine(0, TicTacToe.HEIGHT / 3,
+                BOARD_WIDTH, TicTacToe.HEIGHT / 3);
+        g2d.drawLine(0, 2 * TicTacToe.HEIGHT / 3,
+                BOARD_WIDTH, 2 * TicTacToe.HEIGHT / 3);
+        // Vertical lines
+        g2d.drawLine(BOARD_WIDTH / 3, 0, BOARD_WIDTH / 3,
+                TicTacToe.HEIGHT);
+        g2d.drawLine(2 * BOARD_WIDTH / 3, 0, 2 * BOARD_WIDTH / 3,
+                TicTacToe.HEIGHT);
         
     }
 }

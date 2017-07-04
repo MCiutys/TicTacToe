@@ -30,29 +30,22 @@ public class TicTacToe {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Board board = new Board();
-        board.setPreferredSize(new Dimension((int) (WIDTH * 0.7), HEIGHT));
-        board.setLayout(new GridLayout(3, 3));
-        board.addButtons();
+                board.setPreferredSize(new Dimension((int) (WIDTH * 0.7), HEIGHT));
+                board.setLayout(new GridLayout(3, 3, 30, 30));
+                board.addButtons();
         
-        GameOptions opt = new GameOptions();
-        opt.setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
+                GameOptions opt = new GameOptions();
+                opt.setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
         
         
-        JFrame frame = new JFrame("Tic Tac Toe");
-        frame.setLayout(new FlowLayout());
-        frame.add(board);
-        frame.add(opt);
-        Square sq = new Square(0);
-        sq.setPreferredSize(new Dimension(100, 100));
-        sq.addActionListener(sq);
-//        frame.add(sq);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.repaint();
-        frame.setVisible(true);
+                JFrame frame = new JFrame("Tic Tac Toe");
+                frame.setLayout(new FlowLayout());
+                frame.add(board);
+                frame.add(opt);
+                frame.pack();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
             }
-        });
-        
+        }); 
     }
-    
 }
