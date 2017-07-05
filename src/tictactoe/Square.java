@@ -60,11 +60,18 @@ public class Square {
             RenderingHints.VALUE_ANTIALIAS_ON); 
         g2d.setStroke(new BasicStroke(5));
         g2d.setColor(Color.BLACK);
-        g2d.drawOval(0, 0, 100, 100);
+//        g2d.drawOval(0, 0, 100, 100);
+        drawX(g2d);
         g2d.dispose();
         return new ImageIcon(img);
     }
-
     
+    private void drawO(Graphics2D g2d) {
+        g2d.drawOval(0, 0, 100, 100);
+    }
     
+    private void drawX(Graphics2D g2d) {
+        g2d.drawLine(0 , 0, 100, 100);
+        g2d.drawLine(0, 100, 100, 0);
+    }
 }

@@ -5,7 +5,7 @@
  */
 package tictactoe;
 
-import java.awt.FlowLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -15,12 +15,14 @@ import javax.swing.JRadioButton;
  */
 public class GameOptions extends JPanel {
     
-    JRadioButton player1;
-    JRadioButton player2;
+    private JRadioButton player1;
+    private JRadioButton player2;
+    private JLabel label;
     
     public GameOptions() {
         player1 = new JRadioButton("Player 1");
         player2 = new JRadioButton("Player 2");
+        label = new JLabel("Label");
         this.add(player1);
         this.add(player2);
     }
