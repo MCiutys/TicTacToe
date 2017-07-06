@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -15,17 +16,28 @@ import javax.swing.JRadioButton;
  */
 public class GameOptions extends JPanel {
     
+    private static final String TURN = " turn";
+    
     private JRadioButton player1;
     private JRadioButton player2;
-    private JLabel label;
+    private JLabel turn;
     
     public GameOptions() {
         player1 = new JRadioButton("Player 1");
         player2 = new JRadioButton("Player 2");
-        label = new JLabel("Label");
-        this.add(player1);
-        this.add(player2);
+        turn = new JLabel("label");
+        setLayout(new BorderLayout());
+//        setLayout(new BorderLayout());
+        add(player1, BorderLayout.PAGE_START);
+        add(player2, BorderLayout.PAGE_END);
+//        add(player2);
+        add(turn, BorderLayout.CENTER);
     }
+    
+    public void setTurnLabel(Player player) {
+        turn.setText(player.getName() + TURN);
+    }
+    
     
     
     

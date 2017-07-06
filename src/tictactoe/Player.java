@@ -1,4 +1,7 @@
+package tictactoe;
 
+
+import java.awt.Color;
 import java.util.ArrayList;
 
 /*
@@ -14,8 +17,9 @@ import java.util.ArrayList;
 public class Player {
     
     private String name;
-    private ArrayList<Integer> marked;
+    private ArrayList<Square> marked;
     private boolean drawX;
+    private Color color;
     
     public Player(String name) {
         this.name = name;
@@ -27,11 +31,11 @@ public class Player {
         return name;
     }
     
-    public void addToMarked(int number) {
+    public void addToMarked(Square number) {
         marked.add(number);
     }
     
-    public ArrayList<Integer> getMarked() {
+    public ArrayList<Square> getMarked() {
         return marked;
     }
     
@@ -45,6 +49,14 @@ public class Player {
     
     public void setToDrawO() {
         drawX = false;
+    }
+    
+    public void setColor(Color c) {
+        color = c;
+    }
+    
+    public Color getColor() {
+        return color;
     }
     
 }

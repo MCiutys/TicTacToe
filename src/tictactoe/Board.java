@@ -6,6 +6,7 @@
 package tictactoe;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -40,8 +41,26 @@ public class Board extends JPanel {
         }
     }
     
-    public Square[] getButtons() {
+    public Square[] getSquares() {
         return squares;
+    }
+    
+    public void setWhoseTurn(Player p) {
+        for (int i = 0; i < squares.length; i++) {
+            squares[i].setWhoseTurn(p);
+        }
+    }
+    
+    public void setNotWhoseTurn(Player p) {
+        for (int i = 0; i < squares.length; i++) {
+            squares[i].setNotWhoseTurn(p);
+        }
+    }
+    
+    public void setColor(Color c) {
+        for (int i = 0; i < squares.length; i++) {
+            squares[i].setColor(c);
+        }
     }
     
     @Override

@@ -5,9 +5,11 @@
  */
 package tictactoe;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -27,24 +29,11 @@ public class TicTacToe {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Board board = new Board();
-                board.setPreferredSize(new Dimension((int) (WIDTH * 0.7), HEIGHT));
-                board.setLayout(new GridLayout(3, 3, 30, 30));
-                board.addButtons();
-        
-                GameOptions opt = new GameOptions();
-                opt.setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
-        
-        
-                JFrame frame = new JFrame("Tic Tac Toe");
-                frame.setLayout(new FlowLayout());
-                frame.add(board);
-                frame.add(opt);
-                frame.pack();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
+                GameLogic game = new GameLogic();
+                game.executeGame();
             }
         }); 
     }
