@@ -5,15 +5,7 @@
  */
 package tictactoe;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
 /**
@@ -21,7 +13,7 @@ import javax.swing.JToggleButton;
  * @author Mantas
  */
 
-public class Square {
+public class Square implements Comparable<Square> {
     
     private int index;
     private JToggleButton button;
@@ -41,26 +33,18 @@ public class Square {
         button.setBorderPainted(false);
         button.setBorder(null);
         
-        
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                whoseTurn.addToMarked(Square.this);
-                System.out.println(whoseTurn);
-                
-                Player temp = whoseTurn;
-                whoseTurn = notWhoseTurn;
-                notWhoseTurn = temp;
-                
-                isClicked = !isClicked;
-                
-                if (isClicked) {
-                    button.setIcon(draw());   
-                } else {
-                    button.setIcon(null); 
-                }
-            }   
-        });
+    }
+    
+    public int getIndex() {
+        return index;
+    }
+    
+    public void setClicked() {
+        isClicked = !isClicked;
+    }
+    
+    public boolean getClicked() {
+        return isClicked;
     }
     
     public JToggleButton getButton() {
@@ -79,25 +63,20 @@ public class Square {
         notWhoseTurn = p;
     }
 
-    
-    private Icon draw() {
-        BufferedImage img = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = img.createGraphics();
-         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON); 
-        g2d.setStroke(new BasicStroke(5));
-        g2d.setColor(color);
-        drawX(g2d);
-        g2d.dispose();
-        return new ImageIcon(img);
+    @Override
+    public String toString() {
+        return "Square{" + "index=" + index + '}';
     }
-    
-    private void drawO(Graphics2D g2d) {
-        g2d.drawOval(0, 0, 100, 100);
+
+    @Override
+    public int compareTo(Square o) {
+        if (index > o.index) {
+            return 1;
+        } else if (index == o.index) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
-    
-    private void drawX(Graphics2D g2d) {
-        g2d.drawLine(0 , 0, 100, 100);
-        g2d.drawLine(0, 100, 100, 0);
-    }
+
 }

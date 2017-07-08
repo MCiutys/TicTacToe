@@ -27,10 +27,8 @@ public class GameOptions extends JPanel {
         player2 = new JRadioButton("Player 2");
         turn = new JLabel("label");
         setLayout(new BorderLayout());
-//        setLayout(new BorderLayout());
         add(player1, BorderLayout.PAGE_START);
         add(player2, BorderLayout.PAGE_END);
-//        add(player2);
         add(turn, BorderLayout.CENTER);
     }
     

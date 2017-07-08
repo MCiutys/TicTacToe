@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -62,6 +64,18 @@ public class Board extends JPanel {
             squares[i].setColor(c);
         }
     }
+    
+//    public void addListener() {
+//        for (Square square : squares) {
+//            square.getButton().addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    
+//                }
+//                
+//            });
+//        }
+//    }
     
     @Override
     protected void paintComponent(Graphics g) {
