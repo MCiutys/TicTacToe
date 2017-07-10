@@ -1,5 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package tictactoe;
-
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,23 +14,16 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Mantas
  */
-public class Player {
+public abstract class Player {
     
     private static final int IMAGE_SIZE = 150;
     private static final int STROKE_WIDTH = 10;
     private static final int CIRCLE_SIZE = IMAGE_SIZE - STROKE_WIDTH;
     private static final int CIRCLE_POS = (IMAGE_SIZE - CIRCLE_SIZE) / 2;
-    
     
     private String name;
     private ArrayList<Square> marked;

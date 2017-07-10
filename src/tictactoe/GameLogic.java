@@ -25,10 +25,10 @@ public class GameLogic {
     
     private Board board;
     private GameOptions options;
-    private Player player1;
-    private Player player2;
-    private Player whoseTurn;
-    
+    private HumanPlayer player1;
+    private HumanPlayer player2;
+    private HumanPlayer whoseTurn;
+        
     public GameLogic() {
         board = new Board();
         board.setPreferredSize(new Dimension((int) (WIDTH * 0.7), HEIGHT));
@@ -46,8 +46,8 @@ public class GameLogic {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        player1 = new Player("Mantas");
-        player2 = new Player("Jonas");
+        player1 = new HumanPlayer("Mantas");
+        player2 = new HumanPlayer("Jonas");
         player1.setToDrawX();
         player2.setToDrawO();
         whoseTurn = player1;
@@ -89,7 +89,7 @@ public class GameLogic {
         }
     }
     
-    public boolean didPlayerWin(Player player) {
+    public boolean didPlayerWin(HumanPlayer player) {
         
         Square[] set1 = {new Square(0), new Square(1), new Square(2)};   
         Square[] set2 = {new Square(3), new Square(4), new Square(5)};

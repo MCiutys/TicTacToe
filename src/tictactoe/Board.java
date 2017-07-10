@@ -47,13 +47,13 @@ public class Board extends JPanel {
         return squares;
     }
     
-    public void setWhoseTurn(Player p) {
+    public void setWhoseTurn(HumanPlayer p) {
         for (int i = 0; i < squares.length; i++) {
             squares[i].setWhoseTurn(p);
         }
     }
     
-    public void setNotWhoseTurn(Player p) {
+    public void setNotWhoseTurn(HumanPlayer p) {
         for (int i = 0; i < squares.length; i++) {
             squares[i].setNotWhoseTurn(p);
         }

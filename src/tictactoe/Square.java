@@ -19,8 +19,8 @@ public class Square implements Comparable<Square> {
     private JToggleButton button;
     private boolean isClicked;
     private Color color;
-    private Player whoseTurn;
-    private Player notWhoseTurn;
+    private HumanPlayer whoseTurn;
+    private HumanPlayer notWhoseTurn;
     
     public Square(int i) {
         index = i;
@@ -55,11 +55,11 @@ public class Square implements Comparable<Square> {
         color = c;
     }
     
-    public void setWhoseTurn(Player p) {
+    public void setWhoseTurn(HumanPlayer p) {
         whoseTurn = p;
     }
     
-    public void setNotWhoseTurn(Player p) {
+    public void setNotWhoseTurn(HumanPlayer p) {
         notWhoseTurn = p;
     }
 
