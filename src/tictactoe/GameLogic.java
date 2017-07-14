@@ -26,8 +26,8 @@ public class GameLogic {
     private Board board;
     private GameOptions options;
     private HumanPlayer player1;
-    private HumanPlayer player2;
-    private HumanPlayer whoseTurn;
+    private Bot player2;
+    private Player whoseTurn;
         
     public GameLogic() {
         board = new Board();
@@ -47,7 +47,7 @@ public class GameLogic {
         frame.setVisible(true);
         
         player1 = new HumanPlayer("Mantas");
-        player2 = new HumanPlayer("Jonas");
+        player2 = new Bot("Jonas");
         player1.setToDrawX();
         player2.setToDrawO();
         whoseTurn = player1;
@@ -55,41 +55,23 @@ public class GameLogic {
     }
     
     public void addListeners() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES; i++) {
             Square square = board.getSquares()[i];
             JToggleButton button = square.getButton();
             button.addActionListener(new ActionListener() {
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
-                    square.setClicked();
-                    square.setColor(whoseTurn.getColor());
-                    
-                    whoseTurn.addToMarked(square);
-                    Collections.sort(whoseTurn.getMarked());
-                    System.out.println(GameLogic.this.didPlayerWin(whoseTurn));
-                    
-                    if (square.getClicked()) {
-                        button.setIcon(whoseTurn.draw());
-                    } else {
-                        button.setIcon(null);
-                    }
-                    
-                    if (whoseTurn == player1) {
-                        whoseTurn = player2;
-                    } else {
-                        whoseTurn = player1;
-                    }
-                    
+                    playerMove(whoseTurn, square);
                     options.setTurnLabel(whoseTurn);
+                    botMove(whoseTurn);
                 }
                 
             });
         }
     }
     
-    public boolean didPlayerWin(HumanPlayer player) {
+    public boolean didPlayerWin(Player player) {
         
         Square[] set1 = {new Square(0), new Square(1), new Square(2)};   
         Square[] set2 = {new Square(3), new Square(4), new Square(5)};
@@ -104,16 +86,13 @@ public class GameLogic {
         
         
         int counter = 0;
-        outer : for (int k = 0; k < winningSets.length; k++) {
+        outer : for (Square[] winningSet : winningSets) {
             counter = 0;
-            for (int i = 0; i < winningSets[k].length; i++) {
+            for (Square square : winningSet) {
                 for (int j = 0; j < whoseTurn.getMarked().size(); j++) {
-                    if (winningSets[k][i].compareTo(whoseTurn.getMarked().get(j)) == 0) {
-                        System.out.println(winningSets[k][i]);
+                    if (square.compareTo(whoseTurn.getMarked().get(j)) == 0) {
                         counter++;
-                        System.out.println(counter);
                     }
-                    
                     if (counter == 3) break outer;
                 }
             }    
@@ -134,6 +113,48 @@ public class GameLogic {
         
         board.setWhoseTurn(player1);
         addListeners();
+    }
+    
+    public void botMove(Player b) {
+        Square mark;
+        if (b.getClass().getName().equals(Bot.class.getName())) {
+            Bot bot = (Bot) b;
+            mark = bot.mark(board);
+            playerMove(bot, mark);
+        }
+    }
+    
+    public void playerMove(Player player, Square mark) {
+        
+        mark.setClicked();
+        mark.setColor(player.getColor());
+                    
+        player.addToMarked(mark);
+        Collections.sort(player.getMarked());
+        didPlayerWin(player);
+                    
+                    
+        if (mark.getClicked()) {
+            mark.getButton().setIcon(player.draw());
+        } 
+        
+        if (isWinner()) {
+            System.out.println("WINNER IS HERE!");
+        }
+        
+        if (player == player1) {
+            whoseTurn = player2;
+        } else {
+            whoseTurn = player1;
+        }
+    }
+    
+    public boolean isWinner() {
+        boolean isWinner = false;
+        if (didPlayerWin(player1) || didPlayerWin(player2)) {
+            isWinner = true;
+        }
+        return isWinner;
     }
     
 }

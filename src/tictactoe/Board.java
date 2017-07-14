@@ -7,13 +7,9 @@ package tictactoe;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -34,9 +30,9 @@ public class Board extends JPanel {
     }
     
     public void addButtons() {
-        squares = new Square[9];
+        squares = new Square[Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES];
         
-        for (int i = 0; i < 9   ; i++) {
+        for (int i = 0; i < Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES; i++) {
                 Square square = new Square(i);
                 this.add(square.getButton());
                 squares[i] = square;
@@ -47,35 +43,29 @@ public class Board extends JPanel {
         return squares;
     }
     
-    public void setWhoseTurn(HumanPlayer p) {
-        for (int i = 0; i < squares.length; i++) {
-            squares[i].setWhoseTurn(p);
+    public ArrayList<Square> getFreeSquares() {
+        ArrayList<Square> freeSquares = new ArrayList<>();
+        for (Square square : squares) {
+            if (!square.getClicked()) {
+                freeSquares.add(square);
+
+            }
+
         }
+        return freeSquares;
     }
     
-    public void setNotWhoseTurn(HumanPlayer p) {
-        for (int i = 0; i < squares.length; i++) {
-            squares[i].setNotWhoseTurn(p);
+    public void setWhoseTurn(HumanPlayer p) {
+        for (Square square : squares) {
+            square.setWhoseTurn(p);
         }
     }
     
     public void setColor(Color c) {
-        for (int i = 0; i < squares.length; i++) {
-            squares[i].setColor(c);
+        for (Square square : squares) {
+            square.setColor(c);
         }
     }
-    
-//    public void addListener() {
-//        for (Square square : squares) {
-//            square.getButton().addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    
-//                }
-//                
-//            });
-//        }
-//    }
     
     @Override
     protected void paintComponent(Graphics g) {

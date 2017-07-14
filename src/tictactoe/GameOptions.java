@@ -40,7 +40,7 @@ public class GameOptions extends JPanel {
         opponentScore = new JLabel();
         playAgainst = new JLabel(PLAY_AGAINST);
         botLevels = new JComboBox(BOT_LEVELS);
-        restartGame = new JButton();
+        restartGame = new JButton("RESTART GAME");
         
 //        setLayout(new BorderLayout());
 //        add(player1, BorderLayout.PAGE_START);
@@ -55,7 +55,11 @@ public class GameOptions extends JPanel {
         
         layout.setHorizontalGroup(
             layout.createSequentialGroup()
-                .addComponent(playAgainst)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(playAgainst)
+//                    .addComponent(botLevels)
+                    .addComponent(restartGame)
+                )
                 .addComponent(player1)
                 .addComponent(player2)
         );
@@ -63,14 +67,16 @@ public class GameOptions extends JPanel {
         layout.setVerticalGroup(
             layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(playAgainst)
-                    .addComponent(player1)
-                    .addComponent(player2)
+                        .addComponent(playAgainst)
+                        .addComponent(player1)
+                        .addComponent(player2)
                 )
+//                .addComponent(botLevels)
+                .addComponent(restartGame)
         );
     }
     
-    public void setTurnLabel(HumanPlayer player) {
+    public void setTurnLabel(Player player) {
         turn.setText(player.getName() + TURN);
     }
     
