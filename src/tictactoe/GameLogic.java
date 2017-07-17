@@ -5,12 +5,15 @@
  */
 package tictactoe;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.util.Collections;
 import javax.swing.JFrame;
 import javax.swing.JToggleButton;
@@ -23,20 +26,21 @@ import static tictactoe.TicTacToe.WIDTH;
  */
 public class GameLogic {
     
-    private Board board;
-    private GameOptions options;
-    private HumanPlayer player1;
-    private Bot player2;
+    private final Board board;
+    private final GameOptions options;
+    private final HumanPlayer player1;
+    private final Bot player2;
     private Player whoseTurn;
+    
+    private Panel panel;
         
     public GameLogic() {
         board = new Board();
-        board.setPreferredSize(new Dimension((int) (WIDTH * 0.7), HEIGHT));
+        board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
         board.setLayout(new GridLayout(3, 3, 30, 30));
         board.addButtons();
         
         options = new GameOptions();
-        options.setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
         
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setLayout(new FlowLayout());
@@ -51,7 +55,9 @@ public class GameLogic {
         player1.setToDrawX();
         player2.setToDrawO();
         whoseTurn = player1;
+        
         options.setTurnLabel(whoseTurn);
+        options.setScores(player1, player2);
     }
     
     public void addListeners() {
@@ -63,7 +69,7 @@ public class GameLogic {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     playerMove(whoseTurn, square);
-                    options.setTurnLabel(whoseTurn);
+                    options.setScores(player1, player2);
                     botMove(whoseTurn);
                 }
                 
@@ -101,6 +107,7 @@ public class GameLogic {
         
         if (counter == 3) {
             System.out.println("GOT IT!");
+            whoseTurn.increaseScore();
             return true;   
         } else {
             return false;
@@ -131,7 +138,7 @@ public class GameLogic {
                     
         player.addToMarked(mark);
         Collections.sort(player.getMarked());
-        didPlayerWin(player);
+//        didPlayerWin(player);
                     
                     
         if (mark.getClicked()) {
@@ -147,6 +154,9 @@ public class GameLogic {
         } else {
             whoseTurn = player1;
         }
+        
+        options.setTurnLabel(whoseTurn);
+
     }
     
     public boolean isWinner() {

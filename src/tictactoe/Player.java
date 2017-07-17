@@ -29,15 +29,29 @@ public abstract class Player {
     private ArrayList<Square> marked;
     private boolean drawX;
     private Color color;
+    private int score;
     
     public Player(String name) {
         this.name = name;
         marked = new ArrayList<>();
         drawX = false;
+        score = 0;
     }
     
     public String getName() {
         return name;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+    
+    public void resetScore() {
+        score = 0;
+    }
+    
+    public void increaseScore() {
+        score++;
     }
     
     public void addToMarked(Square number) {

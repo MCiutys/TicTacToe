@@ -5,12 +5,16 @@
  */
 package tictactoe;
 
-import javax.swing.GroupLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import static tictactoe.TicTacToe.HEIGHT;
+import static tictactoe.TicTacToe.WIDTH;
 
 /**
  *
@@ -25,62 +29,69 @@ public class GameOptions extends JPanel {
     
     private JRadioButton player1;
     private JRadioButton player2;
-    private JLabel turn;
     private JLabel playAgainst;
     private JLabel playerScore;
     private JLabel opponentScore;
     private JComboBox botLevels;
-    private JButton restartGame;
+    
+    private Panel panel;
     
     public GameOptions() {
-        player1 = new JRadioButton("Player");
-        player2 = new JRadioButton("Bot");
-        turn = new JLabel();
-        playerScore= new JLabel();
-        opponentScore = new JLabel();
-        playAgainst = new JLabel(PLAY_AGAINST);
-        botLevels = new JComboBox(BOT_LEVELS);
-        restartGame = new JButton("RESTART GAME");
+//        player1 = new JRadioButton("Player");
+//        player2 = new JRadioButton("Bot");
+//        playerScore= new JLabel("Score: ");
+//        opponentScore = new JLabel();
+//        playAgainst = new JLabel(PLAY_AGAINST);
+//        botLevels = new JComboBox(BOT_LEVELS);
         
-//        setLayout(new BorderLayout());
-//        add(player1, BorderLayout.PAGE_START);
-//        add(player2, BorderLayout.PAGE_END);
-//        add(turn, BorderLayout.CENTER);
+          this.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), Constants.HEIGHT));
+          this.setLayout(new BorderLayout());
+            
+          panel = new Panel();
+          panel.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), 100));
+          this.add(panel, BorderLayout.CENTER);
+          
 
-        GroupLayout layout = new GroupLayout(this);
-        setLayout(layout);
-        
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        
-        layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(playAgainst)
-//                    .addComponent(botLevels)
-                    .addComponent(restartGame)
-                )
-                .addComponent(player1)
-                .addComponent(player2)
-        );
-        
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(playAgainst)
-                        .addComponent(player1)
-                        .addComponent(player2)
-                )
-//                .addComponent(botLevels)
-                .addComponent(restartGame)
-        );
+//        setLayout(new BorderLayout());
+//        add(turn, BorderLayout.CENTER);
+//        setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
+//        setLayout(new BorderLayout());
+                
+
+//        GroupLayout layout = new GroupLayout(this);
+//        setLayout(layout);
+//        
+//        layout.setAutoCreateGaps(true);
+//        layout.setAutoCreateContainerGaps(true);
+//        
+//        layout.setHorizontalGroup(
+//            layout.createSequentialGroup()
+//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                    .addComponent(playAgainst)
+////                    .addComponent(botLevels)
+//                    .addComponent(restartGame)
+//                )
+//                .addComponent(player1)
+//                .addComponent(player2)
+//        );
+//        
+//        layout.setVerticalGroup(
+//            layout.createSequentialGroup()
+//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//                        .addComponent(playAgainst)
+//                        .addComponent(player1)
+//                        .addComponent(player2)
+//                )
+////                .addComponent(botLevels)
+//                .addComponent(restartGame)
+//        );
     }
     
     public void setTurnLabel(Player player) {
-        turn.setText(player.getName() + TURN);
+        panel.setTurn(player);
     }
     
-    
-    
-    
+    public void setScores(Player player1, Player player2) {
+        panel.setScore(player1, player2);
+    }
 }
