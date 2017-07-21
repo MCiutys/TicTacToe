@@ -20,6 +20,7 @@ public final class Constants {
     public static final float PART_OF_BOARD = 0.7f;
     public static final int HORIZONTAL_SQUARES = 3;
     public static final int VERTICAL_SQUARES = 3;
+    public static final int TOTAL_SQUARES = HORIZONTAL_SQUARES * VERTICAL_SQUARES;
     public static final int HORIZONTAL_GAP = 30;
     public static final int VERTICAL_GAP = 30;
     

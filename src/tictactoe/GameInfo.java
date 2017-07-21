@@ -20,23 +20,15 @@ import static tictactoe.TicTacToe.WIDTH;
  *
  * @author Mantas
  */
-public class GameOptions extends JPanel {
+public class GameInfo extends JPanel {
     
     private static final String TURN = " turn";
     private static final String PLAY_AGAINST = "Play against: ";
     private static final String[] BOT_LEVELS = {"Easy", "Random", "Impossible to beat"};
-
-    
-    private JRadioButton player1;
-    private JRadioButton player2;
-    private JLabel playAgainst;
-    private JLabel playerScore;
-    private JLabel opponentScore;
-    private JComboBox botLevels;
     
     private Panel panel;
     
-    public GameOptions() {
+    public GameInfo() {
 //        player1 = new JRadioButton("Player");
 //        player2 = new JRadioButton("Bot");
 //        playerScore= new JLabel("Score: ");
@@ -50,41 +42,7 @@ public class GameOptions extends JPanel {
           panel = new Panel();
           panel.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), 100));
           this.add(panel, BorderLayout.CENTER);
-          
 
-//        setLayout(new BorderLayout());
-//        add(turn, BorderLayout.CENTER);
-//        setPreferredSize(new Dimension((int) (WIDTH * 0.3), HEIGHT));
-//        setLayout(new BorderLayout());
-                
-
-//        GroupLayout layout = new GroupLayout(this);
-//        setLayout(layout);
-//        
-//        layout.setAutoCreateGaps(true);
-//        layout.setAutoCreateContainerGaps(true);
-//        
-//        layout.setHorizontalGroup(
-//            layout.createSequentialGroup()
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//                    .addComponent(playAgainst)
-////                    .addComponent(botLevels)
-//                    .addComponent(restartGame)
-//                )
-//                .addComponent(player1)
-//                .addComponent(player2)
-//        );
-//        
-//        layout.setVerticalGroup(
-//            layout.createSequentialGroup()
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//                        .addComponent(playAgainst)
-//                        .addComponent(player1)
-//                        .addComponent(player2)
-//                )
-////                .addComponent(botLevels)
-//                .addComponent(restartGame)
-//        );
     }
     
     public void setTurnLabel(Player player) {
@@ -93,5 +51,9 @@ public class GameOptions extends JPanel {
     
     public void setScores(Player player1, Player player2) {
         panel.setScore(player1, player2);
+    }
+    
+    public Panel getPanel() {
+        return panel;
     }
 }

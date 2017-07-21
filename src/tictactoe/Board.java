@@ -26,16 +26,21 @@ public class Board extends JPanel {
     private Square[] squares;
     
     public Board() {
-        
+        squares = new Square[Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES];
+        addButtons();
     }
     
     public void addButtons() {
-        squares = new Square[Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES];
-        
         for (int i = 0; i < Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES; i++) {
                 Square square = new Square(i);
                 this.add(square.getButton());
                 squares[i] = square;
+        }
+    }
+    
+    public void clearBoard() {
+        for (Square square : squares) {
+            square.clearSquare();
         }
     }
     
@@ -48,18 +53,17 @@ public class Board extends JPanel {
         for (Square square : squares) {
             if (!square.getClicked()) {
                 freeSquares.add(square);
-
             }
 
         }
         return freeSquares;
     }
     
-    public void setWhoseTurn(HumanPlayer p) {
-        for (Square square : squares) {
-            square.setWhoseTurn(p);
-        }
-    }
+//    public void setWhoseTurn(HumanPlayer p) {
+//        for (Square square : squares) {
+//            square.setWhoseTurn(p);
+//        }
+//    }
     
     public void setColor(Color c) {
         for (Square square : squares) {

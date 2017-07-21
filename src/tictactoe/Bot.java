@@ -22,6 +22,9 @@ public class Bot extends Player {
     
     public Square mark(Board board) {
         notClicked = board.getFreeSquares();
+        if (notClicked.isEmpty()) {
+            return null;
+        }
         int rand = (int) (Math.random() * notClicked.size());
         return notClicked.get(rand);
     }

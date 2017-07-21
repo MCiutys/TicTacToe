@@ -16,7 +16,7 @@ import javax.swing.JToggleButton;
 public class Square implements Comparable<Square> {
     
     private final int index;
-    private final JToggleButton button;
+    private JToggleButton button;
     private boolean isClicked;
     private Color color;
     private HumanPlayer whoseTurn;
@@ -24,14 +24,23 @@ public class Square implements Comparable<Square> {
     public Square(int i) {
         index = i;
         button = new JToggleButton();
-        button.setBackground(Color.LIGHT_GRAY);
+        createButton(button);
         isClicked = false;
         color = Color.BLACK;
-        whoseTurn = null;
-        
+        whoseTurn = null;   
+    }
+    
+    private void createButton(JToggleButton button) {
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
         button.setBorderPainted(false);
         button.setBorder(null);
-        
+        button.setFocusPainted(false);
+    }
+    
+    public void clearSquare() {
+        isClicked = false;
+        button.setIcon(null);
     }
     
     public int getIndex() {
@@ -54,9 +63,9 @@ public class Square implements Comparable<Square> {
         color = c;
     }
     
-    public void setWhoseTurn(HumanPlayer p) {
-        whoseTurn = p;
-    }
+//    public void setWhoseTurn(HumanPlayer p) {
+//        whoseTurn = p;
+//    }
 
     @Override
     public String toString() {
