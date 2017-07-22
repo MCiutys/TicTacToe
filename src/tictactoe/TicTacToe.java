@@ -32,8 +32,18 @@ public class TicTacToe {
         
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                GameLogic game = new GameLogic();
-                game.executeGame();
+//                GameLogic game = new GameLogic();
+//                game.executeGame();
+                  GameMenu menu = new GameMenu();
+                  menu.setUpMenu();
+                  
+                  JFrame frame = new JFrame("Tic Tac Toe");
+        frame.setLayout(new FlowLayout());
+        frame.add(menu);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setVisible(true);
             }
         }); 
     }
