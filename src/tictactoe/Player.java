@@ -25,14 +25,13 @@ public abstract class Player {
     private static final int CIRCLE_SIZE = IMAGE_SIZE - STROKE_WIDTH;
     private static final int CIRCLE_POS = (IMAGE_SIZE - CIRCLE_SIZE) / 2;
 
-    private final String name;
+    private String name;
     private final ArrayList<Square> marked;
     private boolean drawX;
     private Color color;
     private int score;
 
-    public Player(String name) {
-        this.name = name;
+    public Player() {
         marked = new ArrayList<>();
         drawX = false;
         score = 0;
@@ -40,6 +39,10 @@ public abstract class Player {
 
     public String getName() {
         return name;
+    }
+    
+    public void setName(String newName) {
+        name = newName;
     }
 
     public int getScore() {

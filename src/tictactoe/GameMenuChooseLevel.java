@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,10 +22,13 @@ public class GameMenuChooseLevel extends JPanel {
     
     private JLabel chooseLevel;
     private JComboBox levels;
-    
+    private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
+
     public GameMenuChooseLevel() {
         chooseLevel = new JLabel(CHOOSE_LEVEL);
         levels = new JComboBox(LEVELS);
+        chooseLevel.setFont(NAME);
+        levels.setFont(NAME);
         add(chooseLevel);
         add(levels);
     }

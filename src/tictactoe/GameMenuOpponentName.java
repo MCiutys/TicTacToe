@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,6 +17,8 @@ import javax.swing.JTextField;
 public class GameMenuOpponentName extends JPanel {
     
     private static final String ENTER_NAME = "Enter opponent's name: ";
+    private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
+
     
     private JLabel enterName;
     private JTextField nameField;
@@ -23,8 +26,14 @@ public class GameMenuOpponentName extends JPanel {
     public GameMenuOpponentName() {
         enterName = new JLabel(ENTER_NAME);
         nameField = new JTextField(20);
+        enterName.setFont(NAME);
+        nameField.setFont(NAME);
         add(enterName);
         add(nameField);
+    }
+    
+    public String getOpponentName() {
+        return nameField.getText();
     }
     
 }

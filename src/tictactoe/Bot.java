@@ -15,8 +15,8 @@ public class Bot extends Player {
     
     private ArrayList<Square> notClicked;
     
-    public Bot(String name) {
-        super(name);
+    public Bot() {
+        super();
         notClicked = new ArrayList<>();
     }
     

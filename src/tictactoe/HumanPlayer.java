@@ -22,7 +22,7 @@ import javax.swing.ImageIcon;
  */
 public class HumanPlayer extends Player {
     
-    public HumanPlayer(String name) {
-        super(name);
+    public HumanPlayer() {
+        super();
     }
 }

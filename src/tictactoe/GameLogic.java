@@ -5,38 +5,20 @@
  */
 package tictactoe;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.awt.image.ImageObserver.HEIGHT;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.util.Collections;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-import static tictactoe.TicTacToe.HEIGHT;
-import static tictactoe.TicTacToe.WIDTH;
 
 /**
  *
  * @author Mantas
  */
-public class GameLogic {
+public class GameLogic extends JPanel {
 
-    // Winning sets
-    private static final Square[] SET_1 = {new Square(0), new Square(1), new Square(2)};
-    private static final Square[] SET_2 = {new Square(3), new Square(4), new Square(5)};
-    private static final Square[] SET_3 = {new Square(6), new Square(7), new Square(8)};
-    private static final Square[] SET_4 = {new Square(0), new Square(3), new Square(6)};
-    private static final Square[] SET_5 = {new Square(1), new Square(4), new Square(7)};
-    private static final Square[] SET_6 = {new Square(2), new Square(5), new Square(8)};
-    private static final Square[] SET_7 = {new Square(0), new Square(4), new Square(8)};
-    private static final Square[] SET_8 = {new Square(2), new Square(4), new Square(6)};
-
-    private static final Square[][] WINNING_SETS = {SET_1, SET_2, SET_3, SET_4, SET_5, SET_6, SET_7, SET_8};
 
     private Board board;
     private final GameInfo options;
@@ -52,18 +34,11 @@ public class GameLogic {
         board.setLayout(new GridLayout(3, 3, 30, 30));
 
         options = new GameInfo();
+        add(board);
+        add(options);
 
-        JFrame frame = new JFrame("Tic Tac Toe");
-        frame.setLayout(new FlowLayout());
-        frame.add(board);
-        frame.add(options);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setVisible(true);
-
-        player1 = new HumanPlayer("Mantas");
-        player2 = new Bot("Jonas");
+        player1 = new HumanPlayer();
+        player2 = new Bot();
         player1.setToDrawX();
         player2.setToDrawO();
         whoseTurn = player1;
@@ -102,7 +77,7 @@ public class GameLogic {
 
         int counter = 0;
         outer:
-        for (Square[] winningSet : WINNING_SETS) {
+        for (Square[] winningSet : Constants.WINNING_SETS) {
             counter = 0;
             for (Square square : winningSet) {
                 for (int j = 0; j < whoseTurn.getMarked().size(); j++) {
@@ -223,10 +198,16 @@ public class GameLogic {
         addSquareListeners();
         options.getPanel().doNotDisplayWinner();
     }
-
-    @Override
-    public String toString() {
-        return "hellow";
+    
+    public Player getPlayer1() {
+        return player1;
     }
-
+    
+    public Player getPlayer2() {
+        return player2;
+    }
+    
+    public GameInfo getGameInfo() {
+        return options;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package tictactoe;
 
+import java.awt.Font;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +20,8 @@ public class GameMenuPlayAgainst extends JPanel {
     private static final String PLAY_AGAINST = "Play against: ";
     private static final String HUMAN = "Human";
     private static final String BOT = "Computer";
+    private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
+
     
     private JLabel playAgainst;
     private JRadioButton humanPlayer;
@@ -28,6 +31,9 @@ public class GameMenuPlayAgainst extends JPanel {
         playAgainst = new JLabel(PLAY_AGAINST);
         humanPlayer = new JRadioButton(HUMAN, true);
         bot = new JRadioButton(BOT, false);
+        playAgainst.setFont(NAME);
+        humanPlayer.setFont(NAME);
+        bot.setFont(NAME);
         add(playAgainst);
         add(humanPlayer);
         add(bot);
@@ -43,5 +49,13 @@ public class GameMenuPlayAgainst extends JPanel {
             return true;
         }
         return false;
+    }
+    
+    public JRadioButton getHumanButton() {
+        return humanPlayer;
+    }
+    
+    public JRadioButton getBotButton() {
+        return bot;
     }
 }
