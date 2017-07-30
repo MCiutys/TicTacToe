@@ -5,7 +5,11 @@
  */
 package tictactoe;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -28,8 +32,10 @@ public class GameMenuOpponentName extends JPanel {
         nameField = new JTextField(20);
         enterName.setFont(NAME);
         nameField.setFont(NAME);
-        add(enterName);
-        add(nameField);
+        setLayout(new BorderLayout());
+        add(enterName, BorderLayout.WEST);
+        add(nameField, BorderLayout.EAST);
+        setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
     public String getOpponentName() {

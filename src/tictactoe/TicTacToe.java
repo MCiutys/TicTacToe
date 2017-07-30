@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -37,11 +38,12 @@ public class TicTacToe {
         game.executeGame();
                 
         menu = new GameMenu();
-        menu.setUpMenu();
+        Box box = menu.setUpMenu();
         menu.getStartButton().addActionListener(startButton);
+         
                 
         panels = new JPanel(layout);
-        panels.add(menu);
+        panels.add(box);
         panels.add(game);
         
         JFrame frame = new JFrame("Tic Tac Toe");

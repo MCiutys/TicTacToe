@@ -25,6 +25,7 @@ public class Panel extends JPanel {
     private static final String RESTART_GAME = "RESTART GAME";
     private static final String CONTINUE_PLAYING = "CONTINUE GAME";
     private static final String WINNER_OF_GAME = "Winner is: ";
+    private static final String DRAW_GAME = "Draw";
     
     private JLabel turn;
     private JLabel score;
@@ -69,6 +70,12 @@ public class Panel extends JPanel {
     
     public void displayWinner(Player player) {
         winner.setText(WINNER_OF_GAME + player.getName());
+        winner.setVisible(true);
+        continueButton.setVisible(true);
+    }
+    
+    public void displayDraw() {
+        winner.setText(DRAW_GAME);
         winner.setVisible(true);
         continueButton.setVisible(true);
     }

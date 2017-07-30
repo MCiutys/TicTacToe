@@ -65,11 +65,17 @@ public abstract class Player {
     public void addToMarked(Square number) {
         marked.add(number);
     }
+    
+    public boolean isInMarked(Square square) {
+        for (Square s : marked) {
+            if (s.compareTo(square) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public ArrayList<Square> getMarked() {
-//        System.out.println("------------------------------");
-//        System.out.println(name + ": " + marked);
-//        System.out.println("------------------------------");
         return marked;
     }
 

@@ -29,12 +29,6 @@ public class GameInfo extends JPanel {
     private Panel panel;
     
     public GameInfo() {
-//        player1 = new JRadioButton("Player");
-//        player2 = new JRadioButton("Bot");
-//        playerScore= new JLabel("Score: ");
-//        opponentScore = new JLabel();
-//        playAgainst = new JLabel(PLAY_AGAINST);
-//        botLevels = new JComboBox(BOT_LEVELS);
         
           this.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), Constants.HEIGHT));
           this.setLayout(new BorderLayout());

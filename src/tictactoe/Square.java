@@ -20,6 +20,7 @@ public class Square implements Comparable<Square> {
     private boolean isClicked;
     private Color color;
     private HumanPlayer whoseTurn;
+    private boolean isDrawnX;
     
     public Square(int i) {
         index = i;
@@ -27,7 +28,8 @@ public class Square implements Comparable<Square> {
         createButton(button);
         isClicked = false;
         color = Color.BLACK;
-        whoseTurn = null;   
+        whoseTurn = null;
+        isDrawnX = false;
     }
     
     private void createButton(JToggleButton button) {
@@ -40,6 +42,7 @@ public class Square implements Comparable<Square> {
     
     public void clearSquare() {
         isClicked = false;
+        isDrawnX = false;
         button.setIcon(null);
     }
     
@@ -53,6 +56,25 @@ public class Square implements Comparable<Square> {
     
     public boolean getClicked() {
         return isClicked;
+    }
+    
+    public void setDrawnX() {
+        isDrawnX = true;
+    }
+    
+    public void setDrawnO() {
+        isDrawnX = false;
+    }
+    
+    public boolean isDrawnX() {
+        return isDrawnX;
+    }
+    
+    public boolean isDrawnO() {
+        if (isClicked && !isDrawnX) {
+            return true;
+        }
+        return false;
     }
     
     public JToggleButton getButton() {
@@ -82,5 +104,32 @@ public class Square implements Comparable<Square> {
             return -1;
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + this.index;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Square other = (Square) obj;
+        if (this.index != other.index) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

@@ -14,12 +14,12 @@ import java.awt.event.ActionListener;
  */
 public class SquareListener implements ActionListener {
     
-    private Square square;
-    private Player whoseTurn;
-    private Player player1;
-    private Player player2;
-    private GameLogic gameLogic;
-    private GameInfo options;
+    private final Square square;
+    private final Player whoseTurn;
+    private final Player player1;
+    private final Player player2;
+    private final GameLogic gameLogic;
+    private final GameInfo options;
     
     public SquareListener(Square square, Player whoseTurn, Player player1, Player player2,
             GameLogic gameLogic, GameInfo options) {
@@ -33,10 +33,10 @@ public class SquareListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("PRESSED");
         gameLogic.playerMove(square);
         options.setScores(player1, player2);
-        gameLogic.botMove();
+        if (!gameLogic.getBoard().getFreeSquares().isEmpty()) {
+            gameLogic.botMove(square);   
+        }
     }
-    
 }

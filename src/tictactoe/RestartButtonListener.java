@@ -22,7 +22,7 @@ public class RestartButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("RESTART");
+        gameLogic.removeSquareListeners();
         gameLogic.restartGame();
     }
     

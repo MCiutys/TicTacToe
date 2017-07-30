@@ -5,7 +5,10 @@
  */
 package tictactoe;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,9 +37,16 @@ public class GameMenuPlayAgainst extends JPanel {
         playAgainst.setFont(NAME);
         humanPlayer.setFont(NAME);
         bot.setFont(NAME);
-        add(playAgainst);
-        add(humanPlayer);
-        add(bot);
+        setLayout(new BorderLayout());
+        
+        add(playAgainst, BorderLayout.WEST);
+        
+        JPanel choices = new JPanel();
+        choices.add(humanPlayer);
+        choices.add(bot);
+        add(choices, BorderLayout.EAST);
+//        add(humanPlayer, BorderLayout.EAST);
+//        add(bot, BorderLayout.EAST);
         
         // Creating button group
         ButtonGroup group = new ButtonGroup();

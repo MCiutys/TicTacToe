@@ -22,6 +22,7 @@ public class ContinueGameListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        logic.removeSquareListeners();
         logic.continueGame();
     }
     

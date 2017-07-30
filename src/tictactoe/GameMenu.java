@@ -6,11 +6,13 @@
 package tictactoe;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -69,14 +71,18 @@ public class GameMenu extends JPanel {
         }
     };
     
-    public void setUpMenu() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
-        add(title);
-        add(gettingName);
-        add(playAgainst);
-        add(cards);
-        add(startGame);
+    public Box setUpMenu() {
+        Box alignPanels = new Box(BoxLayout.Y_AXIS);
+//        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+//        setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
+        alignPanels.add(title);
+        alignPanels.add(gettingName);
+        alignPanels.add(playAgainst);
+        alignPanels.add(cards);
+        alignPanels.add(startGame);
+        alignPanels.setBackground(Color.RED);
+        alignPanels.setVisible(true);
+        return alignPanels;
     }
     
     public void passVariables(GameLogic logic) {

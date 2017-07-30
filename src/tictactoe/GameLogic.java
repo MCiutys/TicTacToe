@@ -21,30 +21,34 @@ public class GameLogic extends JPanel {
 
 
     private Board board;
-    private final GameInfo options;
-    private final HumanPlayer player1;
-    private final Bot player2;
+    private GameInfo info;
+    private HumanPlayer player1;
+    private Bot player2;
     private Player whoseTurn;
 
     private Panel panel;
 
     public GameLogic() {
+        createGame();
+    }
+    
+    public void createGame() {
         board = new Board();
         board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
         board.setLayout(new GridLayout(3, 3, 30, 30));
 
-        options = new GameInfo();
+        info = new GameInfo();
         add(board);
-        add(options);
+        add(info);
 
         player1 = new HumanPlayer();
-        player2 = new Bot();
+        player2 = new Bot(board);
         player1.setToDrawX();
         player2.setToDrawO();
         whoseTurn = player1;
 
-        options.setTurnLabel(whoseTurn);
-        options.setScores(player1, player2);
+        info.setTurnLabel(whoseTurn);
+        info.setScores(player1, player2);
     }
 
     public void addSquareListeners() {
@@ -53,7 +57,7 @@ public class GameLogic extends JPanel {
         for (int i = 0; i < Constants.TOTAL_SQUARES; i++) {
             Square square = board.getSquares()[i];
             ActionListener squareListener = new SquareListener(square, whoseTurn, player1,
-                    player2, this, options);
+                    player2, this, info);
             JToggleButton button = square.getButton();
             button.addActionListener(squareListener);
         }
@@ -62,14 +66,13 @@ public class GameLogic extends JPanel {
 
     public void addOtherListeners() {
         // Restart Game Button Listener
-        options.getPanel().addRestartListener(this);
+        info.getPanel().addRestartListener(this);
 
         // Continue Game Button Listener
-        options.getPanel().addContinueListener(this);
+        info.getPanel().addContinueListener(this);
     }
 
     public ActionListener[] getSquareListener(Square square) {
-        System.out.println("Number of listeners: " + square.getButton().getActionListeners().length);
         return square.getButton().getActionListeners();
     }
 
@@ -108,27 +111,44 @@ public class GameLogic extends JPanel {
         addOtherListeners();
     }
 
-    public void botMove() {
-        if (whoseTurn.getClass().getName().equals(Bot.class.getName())) {
+    public void botMove(Square lastMove) {
+//        System.out.println("BOT EXECUTING");
+        if (whoseTurn.getClass().getName().equals(Bot.class.getName()) && board.getFreeSquares().size() != Constants.TOTAL_SQUARES) {
             Bot bot = (Bot) whoseTurn;
-            Square mark = bot.mark(board);
+            Square mark = bot.mark(lastMove);
             if (mark != null) {
                 playerMove(mark);
             }
         }
     }
+    
+    public Board getBoard() {
+        return board;
+    }
 
     public void removeSquareListeners() {
         for (Square square : board.getSquares()) {
-            for (ActionListener actionListener : this.getSquareListener(square)) {
-                square.getButton().removeActionListener(actionListener);
-            }
+            removeSquareListener(square);
+        }
+    }
+    
+    public void removeSquareListener(Square square) {
+        for (ActionListener actionListener : getSquareListener(square)) {
+            square.getButton().removeActionListener(actionListener);
         }
     }
 
     public void playerMove(Square mark) {
+//        System.out.println(board.getFreeSquares());
+        
         mark.setClicked();
         mark.setColor(whoseTurn.getColor());
+        
+        if (whoseTurn.isDrawingX()) {
+            mark.setDrawnX();
+        } else {
+            mark.setDrawnO();
+        }
 
         whoseTurn.addToMarked(mark);
         Collections.sort(whoseTurn.getMarked());
@@ -139,15 +159,17 @@ public class GameLogic extends JPanel {
 
         if (isWinner()) {
             removeSquareListeners();
-            options.getPanel().displayWinner(whoseTurn);
+            info.getPanel().displayWinner(whoseTurn);
         } else {
             if (isDraw()) {
                 removeSquareListeners();
-                continueGame();
+                info.getPanel().displayDraw();
             }
         }
+        
         swapTurns();
-        options.setTurnLabel(whoseTurn);
+        info.setTurnLabel(whoseTurn);
+        removeSquareListener(mark);
     }
     
     private void swapTurns() {
@@ -167,27 +189,34 @@ public class GameLogic extends JPanel {
     }
 
     public boolean isDraw() {
-        boolean isDraw = false;
-        if (board.getFreeSquares().isEmpty()) {
-            isDraw = true;
-        }
-        return isDraw;
+        return board.getFreeSquares().isEmpty();
     }
 
     public void updateGameInfo() {
-        options.setTurnLabel(whoseTurn);
-        options.setScores(player1, player2);
+        info.setTurnLabel(whoseTurn);
+        info.setScores(player1, player2);
+    }
+    
+    public int amountOfListeners() {
+        Square s = board.getFreeSquares().get(4);
+        int count = 0;
+        for (Square sq : board.getFreeSquares()) {
+            for (ActionListener a : s.getButton().getActionListeners()) {
+               count++;
+            }  
+            System.out.println("AMOUNT OF LISTENERS for " + sq.getIndex() + ": " + count );
+        }
+        return count;
     }
 
     public void restartGame() {
         board.clearBoard();
         player1.resetPlayer();
         player2.resetPlayer();
+        amountOfListeners();
         updateGameInfo();
-        options.getPanel().doNotDisplayWinner();
-        if (getSquareListener(board.getSquares()[2]).length == 0) {
-            addSquareListeners();
-        }
+        info.getPanel().doNotDisplayWinner();
+        addSquareListeners();
     }
 
     public void continueGame() {
@@ -196,7 +225,8 @@ public class GameLogic extends JPanel {
         player1.resetMarked();
         player2.resetMarked();
         addSquareListeners();
-        options.getPanel().doNotDisplayWinner();
+        info.getPanel().doNotDisplayWinner();
+        whoseTurn = player1;
     }
     
     public Player getPlayer1() {
@@ -208,6 +238,6 @@ public class GameLogic extends JPanel {
     }
     
     public GameInfo getGameInfo() {
-        return options;
+        return info;
     }
 }

@@ -48,6 +48,24 @@ public class Board extends JPanel {
         return squares;
     }
     
+    public Square getSameFromBoard(Square sq) {
+        for (Square s : squares) {
+            if (s.compareTo(sq) == 0) {
+                return s;
+            }
+        }
+        return null;
+    }
+    
+    public boolean doesInclude(Square s) {
+        for (Square sq : squares) {
+            if (sq == s) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public ArrayList<Square> getFreeSquares() {
         ArrayList<Square> freeSquares = new ArrayList<>();
         for (Square square : squares) {
@@ -57,6 +75,26 @@ public class Board extends JPanel {
 
         }
         return freeSquares;
+    }
+    
+    public ArrayList<Square> getAllXs() {
+        ArrayList<Square> xs = new ArrayList<>();
+        for (Square square : squares) {
+            if (square.isDrawnX()) {
+                xs.add(square);
+            }
+        }
+        return xs;
+    }
+    
+    public ArrayList<Square> getAllOs() {
+        ArrayList<Square> os = new ArrayList<>();
+        for (Square square : squares) {
+            if (square.isDrawnX()) {
+                os.add(square);
+            }
+        }
+        return os;
     }
     
 //    public void setWhoseTurn(HumanPlayer p) {
