@@ -28,6 +28,9 @@ public class GameMenu extends JPanel {
     private static final String START_GAME = "START GAME";
     private static final int FONT_SIZE = 48;
     private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
+    
+    public static final String BOT = "Bot";
+    public static final String HUMAN = "Player";
 
     
     private JLabel title;
@@ -53,8 +56,8 @@ public class GameMenu extends JPanel {
         
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
-        cards.add(humanOpponent);
-        cards.add(botOpponent);
+        cards.add(humanOpponent, HUMAN);
+        cards.add(botOpponent, BOT);
                 
         playAgainst.getHumanButton().addActionListener(choosePlayer);
         playAgainst.getBotButton().addActionListener(choosePlayer);
@@ -64,9 +67,9 @@ public class GameMenu extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (playAgainst.isHumanPlayerTicked()) {
-                cardLayout.next(cards);
+                cardLayout.show(cards, HUMAN);
             } else {
-                cardLayout.next(cards);
+                cardLayout.show(cards, BOT);
             }
         }
     };
@@ -89,8 +92,19 @@ public class GameMenu extends JPanel {
         // Passing first player's name
         logic.getPlayer1().setName(gettingName.getEnteredName());
         
-        // Passing second player's name
-        logic.getPlayer2().setName(humanOpponent.getOpponentName());
+        
+        // Passing opponent of the player
+        if (playAgainst.isHumanPlayerTicked()) {
+            logic.setPlayer2(HUMAN);
+            
+            // Passing second player's name
+            logic.getPlayer2().setName(humanOpponent.getOpponentName());
+        } else {
+            logic.setPlayer2(BOT);
+        }
+        
+        // Passing name of the opponent (if human)
+        
     }
     
     public JButton getStartButton() {

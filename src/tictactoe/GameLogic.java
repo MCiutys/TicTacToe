@@ -23,7 +23,7 @@ public class GameLogic extends JPanel {
     private Board board;
     private GameInfo info;
     private HumanPlayer player1;
-    private Bot player2;
+    private Player player2;
     private Player whoseTurn;
 
     private Panel panel;
@@ -112,7 +112,6 @@ public class GameLogic extends JPanel {
     }
 
     public void botMove(Square lastMove) {
-//        System.out.println("BOT EXECUTING");
         if (whoseTurn.getClass().getName().equals(Bot.class.getName()) && board.getFreeSquares().size() != Constants.TOTAL_SQUARES) {
             Bot bot = (Bot) whoseTurn;
             Square mark = bot.mark(lastMove);
@@ -196,24 +195,11 @@ public class GameLogic extends JPanel {
         info.setTurnLabel(whoseTurn);
         info.setScores(player1, player2);
     }
-    
-    public int amountOfListeners() {
-        Square s = board.getFreeSquares().get(4);
-        int count = 0;
-        for (Square sq : board.getFreeSquares()) {
-            for (ActionListener a : s.getButton().getActionListeners()) {
-               count++;
-            }  
-            System.out.println("AMOUNT OF LISTENERS for " + sq.getIndex() + ": " + count );
-        }
-        return count;
-    }
 
     public void restartGame() {
         board.clearBoard();
         player1.resetPlayer();
         player2.resetPlayer();
-        amountOfListeners();
         updateGameInfo();
         info.getPanel().doNotDisplayWinner();
         addSquareListeners();
@@ -235,6 +221,14 @@ public class GameLogic extends JPanel {
     
     public Player getPlayer2() {
         return player2;
+    }
+    
+    public void setPlayer2(String opponent) {
+//        if (opponent.equals(GameMenu.HUMAN)) {
+//            player2 = new HumanPlayer();
+//        } else {
+//            player2 = new Bot(board);
+//        }
     }
     
     public GameInfo getGameInfo() {

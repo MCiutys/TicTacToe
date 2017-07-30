@@ -55,10 +55,7 @@ public class GameMenuPlayAgainst extends JPanel {
     }
     
     public boolean isHumanPlayerTicked() {
-        if (humanPlayer.isSelected()) {
-            return true;
-        }
-        return false;
+        return humanPlayer.isSelected();
     }
     
     public JRadioButton getHumanButton() {

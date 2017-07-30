@@ -21,41 +21,63 @@ public class Bot extends Player {
     public Bot(Board board) {
         super();
         this.board = board;
-        notClicked = new ArrayList<>();
+        notClicked = board.getFreeSquares();
     }
     
     public Square mark(Square lastMove) {
-        notClicked = board.getFreeSquares();
-        int numberOfMoves = Constants.TOTAL_SQUARES - notClicked.size();
+        return board.getSameFromBoard(easyLevel());
+    }
+    
+    public Square randomLevel() {
+        return getRandomSquare();
+    }
+    
+    public Square easyLevel() {
+        Square block = isBlockRequired();
+        Square finish = canFinish();
+        
+        if (finish != null) {
+            return board.getSameFromBoard(anyExceptFor(finish));
+        }
+        
+        if (block != null) {
+            return board.getSameFromBoard(anyExceptFor(block));
+        }
+        
+        return getRandomSquare();
+    }
+    
+    public Square impossibleLevel(Square lastOppMove) {
+        int numberOfMoves = Constants.TOTAL_SQUARES - board.getFreeSquares().size();
         
         Square block = isBlockRequired();
         Square finish = canFinish();
         
-        
         // In case bot can win the game
         if (finish != null) {
-//            System.out.println("FINISH EXECUTED");
             return finish;
         }
         
         // In case bot has to avoid lose
         if (block != null) {
-//            System.out.println("BLOCK EXECUTED");
             return block;
         }
         
         if (numberOfMoves == 1) {
-//            System.out.println("FIRST MOVE");
-            return board.getSameFromBoard(firstMove(lastMove));
+            return firstMove(lastOppMove);
         } else if (numberOfMoves == 3 && !board.getSameFromBoard(Constants.CENTER).getClicked()) {
-//            System.out.println("SECOND MOVE");
-            return board.getSameFromBoard(Constants.CENTER);
+            return Constants.CENTER;
         }
         
-        
-//        System.out.println("RANDOM");
-        int rand = (int) (Math.random() * notClicked.size());
-        return notClicked.get(rand);
+        // It does not matter where you mark right now
+        return getRandomSquare();
+    }
+    
+    public Square getRandomSquare() {
+//        notClicked = board.getFreeSquares();
+        Random r = new Random();
+        int rand = r.nextInt(board.getFreeSquares().size());
+        return board.getFreeSquares().get(rand);
     }
     
     public Square firstMove(Square lastOppMove) {
@@ -69,13 +91,6 @@ public class Bot extends Player {
         }
         
         // Should never be executed
-        return null;
-    }
-    
-    public Square secondMove(Square lastOppMove) {
-        // If human marks the corner, bot marks an edge
-        
-        
         return null;
     }
     
@@ -146,6 +161,18 @@ public class Bot extends Player {
     public Square isBlockRequired() {
         ArrayList<Square> oppSquares = getOpponentsSquares();
         return finishOrBlock(oppSquares, getMarked());
+    }
+    
+    public Square anyExceptFor(Square square) {
+        Random r = new Random();
+        int rand = r.nextInt(board.getFreeSquares().size());  
+        
+        while (board.getFreeSquares().get(rand).equals(square)) {
+            rand =  r.nextInt(board.getFreeSquares().size()); 
+        }
+        
+        System.out.println(board.getFreeSquares().get(rand));
+        return board.getFreeSquares().get(rand);
     }
     
     public Square canFinish() {
