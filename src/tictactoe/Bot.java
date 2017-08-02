@@ -17,15 +17,34 @@ public class Bot extends Player {
     
     private ArrayList<Square> notClicked;
     private Board board;
+    private String level;
     
-    public Bot(Board board) {
+    public Bot(Board board, String level) {
         super();
         this.board = board;
         notClicked = board.getFreeSquares();
+        this.level = level;
+    }
+    
+    public void setLevel(String level) {
+        this.level = level;
+    }
+    
+    public void setBoard(Board board) {
+        this.board = board;
     }
     
     public Square mark(Square lastMove) {
-        return board.getSameFromBoard(easyLevel());
+        if (level == null) {
+            return null;
+        } else if (level.equals(Constants.EASY)) {
+            return board.getSameFromBoard(easyLevel());
+        } else if (level.equals(Constants.RANDOM)) {
+            return board.getSameFromBoard(randomLevel());
+        } else if (level.equals(Constants.IMPOSSIBLE)) {
+            return board.getSameFromBoard(impossibleLevel(lastMove));
+        }
+        return null;
     }
     
     public Square randomLevel() {

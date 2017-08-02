@@ -5,16 +5,10 @@
  */
 package tictactoe;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import static tictactoe.TicTacToe.HEIGHT;
-import static tictactoe.TicTacToe.WIDTH;
 
 /**
  *
@@ -31,11 +25,11 @@ public class GameInfo extends JPanel {
     public GameInfo() {
         
           this.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), Constants.HEIGHT));
-          this.setLayout(new BorderLayout());
+          this.setLayout(new GridBagLayout());
+          GridBagConstraints gbc = new GridBagConstraints();
             
           panel = new Panel();
-          panel.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), 100));
-          this.add(panel, BorderLayout.CENTER);
+          this.add(panel, gbc);
 
     }
     

@@ -41,9 +41,9 @@ public class GameMenuPlayAgainst extends JPanel {
         
         add(playAgainst, BorderLayout.WEST);
         
-        JPanel choices = new JPanel();
-        choices.add(humanPlayer);
-        choices.add(bot);
+        JPanel choices = new JPanel(new BorderLayout());
+        choices.add(humanPlayer, BorderLayout.WEST);
+        choices.add(bot, BorderLayout.EAST);
         add(choices, BorderLayout.EAST);
 //        add(humanPlayer, BorderLayout.EAST);
 //        add(bot, BorderLayout.EAST);

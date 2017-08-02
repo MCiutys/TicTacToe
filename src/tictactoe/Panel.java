@@ -7,6 +7,7 @@ package tictactoe;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -27,6 +28,8 @@ public class Panel extends JPanel {
     private static final String WINNER_OF_GAME = "Winner is: ";
     private static final String DRAW_GAME = "Draw";
     
+    private static final Font FONT = new Font("Times New Roman", Font.BOLD, 20);
+    
     private JLabel turn;
     private JLabel score;
     private JLabel winner;
@@ -35,7 +38,9 @@ public class Panel extends JPanel {
     
     public Panel() {
         turn = new JLabel();
+        turn.setFont(FONT);
         score = new JLabel();
+        score.setFont(FONT);
         restartButton = new JButton(RESTART_GAME);
         continueButton = new JButton(CONTINUE_PLAYING);
         winner = new JLabel(WINNER_OF_GAME);

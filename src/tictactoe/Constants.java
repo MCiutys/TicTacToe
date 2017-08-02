@@ -57,4 +57,11 @@ public final class Constants {
     public static final Square[] EDGES = {TOP_EDGE, LEFT_EDGE, RIGHT_EDGE, BOTTOM_EDGE};
     public static final Square[] CORNERS = {TOP_LEFT_CORNER, TOP_RIGHT_CORNER, BOTTOM_LEFT_CORNER, 
     BOTTOM_RIGHT_CORNER};
+    
+    // Combo box choices
+    public static final String RANDOM = "Random";
+    public static final String EASY = "Easy";
+    public static final String IMPOSSIBLE = "Impossible";
+
+
 }

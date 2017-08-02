@@ -6,6 +6,8 @@
 package tictactoe;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,7 +31,13 @@ public class GameMenuChooseLevel extends JPanel {
         levels = new JComboBox(LEVELS);
         chooseLevel.setFont(NAME);
         levels.setFont(NAME);
+        
+        
         add(chooseLevel);
         add(levels);
+    }
+    
+    public JComboBox giveLevel() {
+        return levels;
     }
 }

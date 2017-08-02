@@ -27,25 +27,33 @@ public class GameLogic extends JPanel {
     private Player whoseTurn;
 
     private Panel panel;
+    private int numberOfMoves;
+    private int maxResult;
 
-    public GameLogic() {
+    public GameLogic(Player opponent, Board board) {
+        player2 = opponent;
+        player2.setToDrawO();
+        this.board = board;
         createGame();
     }
     
     public void createGame() {
-        board = new Board();
-        board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
-        board.setLayout(new GridLayout(3, 3, 30, 30));
+//        board = new Board();
+//        board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
+//        board.setLayout(new GridLayout(3, 3, 30, 30));
 
         info = new GameInfo();
         add(board);
         add(info);
 
         player1 = new HumanPlayer();
-        player2 = new Bot(board);
+//        player2 = new Bot(board);
         player1.setToDrawX();
-        player2.setToDrawO();
+//        player2.setToDrawO();
         whoseTurn = player1;
+        
+        numberOfMoves = 0;
+        maxResult = 0;
 
         info.setTurnLabel(whoseTurn);
         info.setScores(player1, player2);
@@ -165,18 +173,18 @@ public class GameLogic extends JPanel {
                 info.getPanel().displayDraw();
             }
         }
-        
+        numberOfMoves++;
         swapTurns();
         info.setTurnLabel(whoseTurn);
         removeSquareListener(mark);
     }
     
     private void swapTurns() {
-        if (whoseTurn == player1) {
-            whoseTurn = player2;
-        } else {
-            whoseTurn = player1;
-        }
+          if (numberOfMoves % 2 == 0) {
+              whoseTurn = player1;
+          } else {
+              whoseTurn = player2;
+          }
     }
 
     public boolean isWinner() {
@@ -189,6 +197,20 @@ public class GameLogic extends JPanel {
 
     public boolean isDraw() {
         return board.getFreeSquares().isEmpty();
+    }
+    
+    public int maxResult() {
+        int max = 0;
+        if (player1.getScore() > player2.getScore()) {
+            max = player1.getScore();
+        } else {
+            max = player2.getScore();
+        }
+        return max;
+    }
+    
+    public void setMaxResult(int max) {
+        
     }
 
     public void updateGameInfo() {
@@ -203,6 +225,7 @@ public class GameLogic extends JPanel {
         updateGameInfo();
         info.getPanel().doNotDisplayWinner();
         addSquareListeners();
+        numberOfMoves = 0;
     }
 
     public void continueGame() {
@@ -213,6 +236,7 @@ public class GameLogic extends JPanel {
         addSquareListeners();
         info.getPanel().doNotDisplayWinner();
         whoseTurn = player1;
+        numberOfMoves = 0;
     }
     
     public Player getPlayer1() {
@@ -223,13 +247,17 @@ public class GameLogic extends JPanel {
         return player2;
     }
     
-    public void setPlayer2(String opponent) {
-//        if (opponent.equals(GameMenu.HUMAN)) {
-//            player2 = new HumanPlayer();
-//        } else {
-//            player2 = new Bot(board);
-//        }
+    public void setPlayer2(String opponent, String level) {
+        if (opponent.equals(GameMenu.HUMAN)) {
+            player2 = new HumanPlayer();
+        } else {
+//            player2 = new Bot(board, level);
+        }
     }
+    
+//    public void setPlayer2Level(String level) {
+//        player2.setLevel(level);
+//    }
     
     public GameInfo getGameInfo() {
         return info;

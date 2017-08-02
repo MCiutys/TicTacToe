@@ -6,7 +6,9 @@
 package tictactoe;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
@@ -27,6 +29,8 @@ public class TicTacToe {
     JPanel panels;
     GameMenu menu;
     GameLogic game;
+    Player player;
+    Board board;
 
     /**
      * @param args the command line arguments
@@ -34,8 +38,8 @@ public class TicTacToe {
     
     public TicTacToe() {
         layout = new CardLayout();
-        game = new GameLogic();
-        game.executeGame();
+//        game = new GameLogic();
+//        game.executeGame();
                 
         menu = new GameMenu();
         Box box = menu.setUpMenu();
@@ -44,7 +48,7 @@ public class TicTacToe {
                 
         panels = new JPanel(layout);
         panels.add(box);
-        panels.add(game);
+//        panels.add(game);
         
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setLayout(new FlowLayout());
@@ -55,15 +59,29 @@ public class TicTacToe {
         frame.setVisible(true);
     }
     
+    public Board createBoard() {
+        board = new Board();
+        board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
+        board.setLayout(new GridLayout(3, 3, 30, 30));
+        return board;
+    }
+    
     ActionListener startButton = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            board = createBoard();
+            player = menu.passPlayer(board);
+            
+            game = new GameLogic(player, board);
+            game.executeGame();
+            panels.add(game);
             layout.next(panels);
             menu.passVariables(game);
             game.updateGameInfo();
         }
         
     };
+
 
     public static void main(String[] args) {
         // TODO code application logic here

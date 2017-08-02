@@ -36,9 +36,10 @@ public class GameMenu extends JPanel {
     private JLabel title;
     private GameMenuNameField gettingName;
     private GameMenuPlayAgainst playAgainst;
-    private JButton startGame;
+    private Button startGame;
     private GameMenuOpponentName humanOpponent;
     private GameMenuChooseLevel botOpponent;
+    private GameMenuPlayTill playTill;
     CardLayout cardLayout;
     
     private JPanel cards;
@@ -49,10 +50,11 @@ public class GameMenu extends JPanel {
         
         gettingName = new GameMenuNameField();
         playAgainst = new GameMenuPlayAgainst();
-        startGame = new JButton(START_GAME);
+        startGame = new Button(START_GAME);
         startGame.setFont(NAME);
         humanOpponent = new GameMenuOpponentName();
         botOpponent = new GameMenuChooseLevel();
+        playTill = new GameMenuPlayTill();
         
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
@@ -76,14 +78,13 @@ public class GameMenu extends JPanel {
     
     public Box setUpMenu() {
         Box alignPanels = new Box(BoxLayout.Y_AXIS);
-//        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//        setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
+        alignPanels.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
         alignPanels.add(title);
         alignPanels.add(gettingName);
         alignPanels.add(playAgainst);
         alignPanels.add(cards);
+        alignPanels.add(playTill);
         alignPanels.add(startGame);
-        alignPanels.setBackground(Color.RED);
         alignPanels.setVisible(true);
         return alignPanels;
     }
@@ -95,16 +96,27 @@ public class GameMenu extends JPanel {
         
         // Passing opponent of the player
         if (playAgainst.isHumanPlayerTicked()) {
-            logic.setPlayer2(HUMAN);
+            logic.setPlayer2(HUMAN, null);
             
             // Passing second player's name
             logic.getPlayer2().setName(humanOpponent.getOpponentName());
         } else {
-            logic.setPlayer2(BOT);
+            logic.setPlayer2(BOT, botOpponent.giveLevel().getSelectedItem().toString());
+        }        
+    }
+    
+    public Player passPlayer(Board board) {
+        Player player;
+        
+        // Passing opponent of the player
+        if (playAgainst.isHumanPlayerTicked()) {
+            player = new HumanPlayer();
+            player.setName(humanOpponent.getOpponentName());
+        } else {
+            player = new Bot(board, botOpponent.giveLevel().getSelectedItem().toString());
         }
         
-        // Passing name of the opponent (if human)
-        
+        return player;
     }
     
     public JButton getStartButton() {
