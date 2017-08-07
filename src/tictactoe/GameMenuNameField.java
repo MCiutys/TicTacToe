@@ -32,11 +32,10 @@ public class GameMenuNameField extends JPanel {
         enterName.setFont(NAME);
         nameField.setFont(NAME);
         nameField.setColumns(20);
-//        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+
         setLayout(new BorderLayout());
         add(enterName, BorderLayout.WEST);
         add(nameField, BorderLayout.EAST);
-        setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
     public String getEnteredName() {

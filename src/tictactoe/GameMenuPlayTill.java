@@ -20,35 +20,27 @@ import javax.swing.JTextField;
  */
 public class GameMenuPlayTill extends JPanel {
     
-    private static final String PLAY = "Play till: ";
-    private static final String WINS = " wins";
+    private static final String PLAY = "Play till #wins : ";
     private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
     
     private JLabel playTill;
     private JTextField number;
-    private JLabel wins;
     
     public GameMenuPlayTill() {
         playTill = new JLabel(PLAY);
         playTill.setFont(NAME);
         number = new JTextField();
-        number.setColumns(18);
+        number.setColumns(20);
         number.setFont(NAME);
-        wins = new JLabel(WINS);
-        wins.setFont(NAME);
         
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(number, BorderLayout.WEST);
-        panel.add(wins, BorderLayout.EAST);
         
 //        setLayout(new FlowLayout(FlowLayout.LEADING));
         setLayout(new BorderLayout());
         add(playTill, BorderLayout.WEST);
         add(panel, BorderLayout.EAST);
-        panel.setBorder(BorderFactory.createLineBorder(Color.RED));
-//        add(wins, BorderLayout.EAST);
-        setBorder(BorderFactory.createLineBorder(Color.yellow));
     }
     
     public int getMaxWins() {

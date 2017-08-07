@@ -1,6 +1,7 @@
 package tictactoe;
 
 
+import java.awt.Font;
 import tictactoe.TicTacToe;
 
 /*
@@ -62,6 +63,9 @@ public final class Constants {
     public static final String RANDOM = "Random";
     public static final String EASY = "Easy";
     public static final String IMPOSSIBLE = "Impossible";
+    
+    // For Game Menu
+    public static final Font MENU_FONT = new Font("Times New Roman", Font.BOLD, 32);
 
 
 }

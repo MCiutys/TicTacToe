@@ -40,6 +40,7 @@ public class GameMenu extends JPanel {
     private GameMenuOpponentName humanOpponent;
     private GameMenuChooseLevel botOpponent;
     private GameMenuPlayTill playTill;
+    private GameMenuSetFirst setFirst;
     CardLayout cardLayout;
     
     private JPanel cards;
@@ -55,6 +56,7 @@ public class GameMenu extends JPanel {
         humanOpponent = new GameMenuOpponentName();
         botOpponent = new GameMenuChooseLevel();
         playTill = new GameMenuPlayTill();
+        setFirst = new GameMenuSetFirst();
         
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
@@ -84,6 +86,7 @@ public class GameMenu extends JPanel {
         alignPanels.add(playAgainst);
         alignPanels.add(cards);
         alignPanels.add(playTill);
+        alignPanels.add(setFirst);
         alignPanels.add(startGame);
         alignPanels.setVisible(true);
         return alignPanels;
@@ -95,14 +98,20 @@ public class GameMenu extends JPanel {
         
         
         // Passing opponent of the player
-        if (playAgainst.isHumanPlayerTicked()) {
-            logic.setPlayer2(HUMAN, null);
-            
-            // Passing second player's name
-            logic.getPlayer2().setName(humanOpponent.getOpponentName());
-        } else {
-            logic.setPlayer2(BOT, botOpponent.giveLevel().getSelectedItem().toString());
-        }        
+//        if (playAgainst.isHumanPlayerTicked()) {
+//            logic.setPlayer2(HUMAN, null);
+//            
+//            // Passing second player's name
+//            logic.getPlayer2().setName(humanOpponent.getOpponentName());
+//        } else {
+//            logic.setPlayer2(BOT, botOpponent.giveLevel().getSelectedItem().toString());
+//        }
+
+        // Who starts the game
+        logic.setFirstTurn(setFirst.isFirstPlayerTurn());
+        
+        // Wins limit
+        logic.setMaxResult(playTill.getMaxWins());
     }
     
     public Player passPlayer(Board board) {
@@ -113,7 +122,8 @@ public class GameMenu extends JPanel {
             player = new HumanPlayer();
             player.setName(humanOpponent.getOpponentName());
         } else {
-            player = new Bot(board, botOpponent.giveLevel().getSelectedItem().toString());
+            String botLevel = botOpponent.giveLevel().getSelectedItem().toString();
+            player = new Bot(board, botLevel, !setFirst.isFirstPlayerTurn());
         }
         
         return player;
@@ -121,5 +131,9 @@ public class GameMenu extends JPanel {
     
     public JButton getStartButton() {
         return startGame;
+    }
+    
+    public GameMenuSetFirst setFirst() {
+        return setFirst;
     }
 }

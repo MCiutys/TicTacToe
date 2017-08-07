@@ -6,8 +6,6 @@
 package tictactoe;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import javax.swing.JPanel;
@@ -25,6 +23,7 @@ public class GameLogic extends JPanel {
     private HumanPlayer player1;
     private Player player2;
     private Player whoseTurn;
+    private Player firstPlayer;
 
     private Panel panel;
     private int numberOfMoves;
@@ -47,16 +46,17 @@ public class GameLogic extends JPanel {
         add(info);
 
         player1 = new HumanPlayer();
-//        player2 = new Bot(board);
+//        player2 = new Bot(board, Constants.IMPOSSIBLE);
         player1.setToDrawX();
 //        player2.setToDrawO();
-        whoseTurn = player1;
-        
+//        whoseTurn = player1;
+//                System.out.println(player1.getName());
+
         numberOfMoves = 0;
         maxResult = 0;
 
-        info.setTurnLabel(whoseTurn);
-        info.setScores(player1, player2);
+//        info.setTurnLabel(whoseTurn);
+//        info.setScores(player1, player2);
     }
 
     public void addSquareListeners() {
@@ -117,12 +117,18 @@ public class GameLogic extends JPanel {
 //        board.setWhoseTurn(player1);
         addSquareListeners();
         addOtherListeners();
+                
+        // If bot has first turn, execute it
+        if (whoseTurn == player2/* && player2.getClass().getName().equals(Bot.class.getName())*/) {
+            botMove(null);
+        }
     }
 
     public void botMove(Square lastMove) {
-        if (whoseTurn.getClass().getName().equals(Bot.class.getName()) && board.getFreeSquares().size() != Constants.TOTAL_SQUARES) {
+        if (whoseTurn instanceof Bot) {
             Bot bot = (Bot) whoseTurn;
             Square mark = bot.mark(lastMove);
+//            System.out.println("mark: " + mark);
             if (mark != null) {
                 playerMove(mark);
             }
@@ -146,7 +152,7 @@ public class GameLogic extends JPanel {
     }
 
     public void playerMove(Square mark) {
-//        System.out.println(board.getFreeSquares());
+//        System.out.println(whoseTurn.getName());
         
         mark.setClicked();
         mark.setColor(whoseTurn.getColor());
@@ -177,14 +183,28 @@ public class GameLogic extends JPanel {
         swapTurns();
         info.setTurnLabel(whoseTurn);
         removeSquareListener(mark);
+        
+        System.out.println(maxResult);
+        
+        if (maxResult == maxResult()) {
+            System.out.println("DONEEE");
+        }
     }
     
     private void swapTurns() {
-          if (numberOfMoves % 2 == 0) {
-              whoseTurn = player1;
-          } else {
-              whoseTurn = player2;
-          }
+//          if (numberOfMoves % 2 == 0) {
+//              System.out.println(numberOfMoves);
+//              whoseTurn = player1;
+//          } else {
+//              whoseTurn = player2;
+//          }
+        if (numberOfMoves != Constants.TOTAL_SQUARES) {
+            if (whoseTurn == player1) {
+                whoseTurn = player2;
+            } else {
+                whoseTurn = player1;
+            }
+        }
     }
 
     public boolean isWinner() {
@@ -206,11 +226,12 @@ public class GameLogic extends JPanel {
         } else {
             max = player2.getScore();
         }
+                System.out.println("mAX FOR TWO: " + max);
         return max;
     }
     
     public void setMaxResult(int max) {
-        
+        maxResult = max;
     }
 
     public void updateGameInfo() {
@@ -219,13 +240,18 @@ public class GameLogic extends JPanel {
     }
 
     public void restartGame() {
+        whoseTurn = firstPlayer;
         board.clearBoard();
         player1.resetPlayer();
         player2.resetPlayer();
         updateGameInfo();
         info.getPanel().doNotDisplayWinner();
         addSquareListeners();
+        if (whoseTurn instanceof Bot) {
+            botMove(null);
+        }
         numberOfMoves = 0;
+        
     }
 
     public void continueGame() {
@@ -235,8 +261,18 @@ public class GameLogic extends JPanel {
         player2.resetMarked();
         addSquareListeners();
         info.getPanel().doNotDisplayWinner();
-        whoseTurn = player1;
+        whoseTurn = firstPlayer;
+//        if (whoseTurn.getClass().getName().equals(Bot.class.getName())) {
+//            botMove(null);
+//        }
+        if (whoseTurn instanceof Bot) {
+            botMove(null);
+        }
         numberOfMoves = 0;
+    }
+    
+    public void maxResult(int max) {
+        
     }
     
     public Player getPlayer1() {
@@ -261,5 +297,14 @@ public class GameLogic extends JPanel {
     
     public GameInfo getGameInfo() {
         return info;
+    }
+    
+    public void setFirstTurn(boolean isItPlayer1) {
+        if (isItPlayer1) {
+            whoseTurn = player1;
+        } else {
+            whoseTurn = player2;
+        }
+        firstPlayer = whoseTurn;
     }
 }

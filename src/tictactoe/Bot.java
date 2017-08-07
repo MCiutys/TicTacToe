@@ -18,12 +18,16 @@ public class Bot extends Player {
     private ArrayList<Square> notClicked;
     private Board board;
     private String level;
+    private boolean startsFirst;
+    private BoardAnalyzer analyzer;
     
-    public Bot(Board board, String level) {
+    public Bot(Board board, String level, boolean startsFirst) {
         super();
         this.board = board;
         notClicked = board.getFreeSquares();
         this.level = level;
+        this.startsFirst = startsFirst;
+        analyzer = new BoardAnalyzer(board);
     }
     
     public void setLevel(String level) {
@@ -34,16 +38,24 @@ public class Bot extends Player {
         this.board = board;
     }
     
+    public void setStartsFirst(boolean ans) {
+        startsFirst = ans;
+    }
+    
     public Square mark(Square lastMove) {
-        if (level == null) {
-            return null;
-        } else if (level.equals(Constants.EASY)) {
-            return board.getSameFromBoard(easyLevel());
-        } else if (level.equals(Constants.RANDOM)) {
-            return board.getSameFromBoard(randomLevel());
-        } else if (level.equals(Constants.IMPOSSIBLE)) {
-            return board.getSameFromBoard(impossibleLevel(lastMove));
-        }
+       
+            if (null == level) {
+                return null;
+            } else switch (level) {
+                case Constants.EASY:
+                    return board.getSameFromBoard(easyLevel());
+                case Constants.RANDOM:
+                    return board.getSameFromBoard(randomLevel());
+                case Constants.IMPOSSIBLE:
+                    return board.getSameFromBoard(impossibleLevel(lastMove));
+                default:
+                    break;
+            }
         return null;
     }
     
@@ -82,11 +94,37 @@ public class Bot extends Player {
             return block;
         }
         
-        if (numberOfMoves == 1) {
-            return firstMove(lastOppMove);
-        } else if (numberOfMoves == 3 && !board.getSameFromBoard(Constants.CENTER).getClicked()) {
-            return Constants.CENTER;
+        if (startsFirst) {
+            if (numberOfMoves == 0) {
+                return analyzer.getCornerOrCenter();
+            } else if (numberOfMoves == 2) {
+                Square first = getMarked().get(0);
+                
+                if (first.equals(Constants.CENTER)) {
+                    if (analyzer.isSquareEdge(lastOppMove)) {
+                        return analyzer.getFreeCorner();
+                    } else {
+                        return getRandomSquare();
+                    }
+                } else {
+                    if (analyzer.isSquareCorner(lastOppMove)) {
+                        return analyzer.getFreeCorner();
+                    } else if (analyzer.isSquareEdge(lastOppMove)) {
+                        return Constants.CENTER;
+                    } else {
+                        return analyzer.getOppositeCorner(first);
+                    }
+                }
+            }
+            
+        } else {
+            if (numberOfMoves == 1) {
+                return firstMove(lastOppMove);
+            } else if (numberOfMoves == 3 && !board.getSameFromBoard(Constants.CENTER).getClicked()) {
+                return Constants.CENTER;
+            }
         }
+        
         
         // It does not matter where you mark right now
         return getRandomSquare();

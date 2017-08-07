@@ -73,10 +73,10 @@ public class TicTacToe {
             player = menu.passPlayer(board);
             
             game = new GameLogic(player, board);
-            game.executeGame();
             panels.add(game);
             layout.next(panels);
             menu.passVariables(game);
+            game.executeGame();
             game.updateGameInfo();
         }
         

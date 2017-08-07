@@ -35,7 +35,6 @@ public class GameMenuOpponentName extends JPanel {
         setLayout(new BorderLayout());
         add(enterName, BorderLayout.WEST);
         add(nameField, BorderLayout.EAST);
-        setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
     public String getOpponentName() {

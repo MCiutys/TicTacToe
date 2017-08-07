@@ -44,6 +44,7 @@ public class Panel extends JPanel {
         restartButton = new JButton(RESTART_GAME);
         continueButton = new JButton(CONTINUE_PLAYING);
         winner = new JLabel(WINNER_OF_GAME);
+        winner.setFont(FONT);
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         add(turn);
