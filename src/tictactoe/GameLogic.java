@@ -192,19 +192,13 @@ public class GameLogic extends JPanel {
     }
     
     private void swapTurns() {
-//          if (numberOfMoves % 2 == 0) {
-//              System.out.println(numberOfMoves);
-//              whoseTurn = player1;
-//          } else {
-//              whoseTurn = player2;
-//          }
-        if (numberOfMoves != Constants.TOTAL_SQUARES) {
+//        if (numberOfMoves != Constants.TOTAL_SQUARES) {
             if (whoseTurn == player1) {
                 whoseTurn = player2;
             } else {
                 whoseTurn = player1;
             }
-        }
+//        }
     }
 
     public boolean isWinner() {

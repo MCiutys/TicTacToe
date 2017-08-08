@@ -28,6 +28,7 @@ public class Bot extends Player {
         this.level = level;
         this.startsFirst = startsFirst;
         analyzer = new BoardAnalyzer(board);
+        setName(FileReader.chooseName());
     }
     
     public void setLevel(String level) {
@@ -43,7 +44,9 @@ public class Bot extends Player {
     }
     
     public Square mark(Square lastMove) {
-       
+            
+            System.out.println("Bot marked");
+        
             if (null == level) {
                 return null;
             } else switch (level) {
