@@ -3,20 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.menu;
 
+import tictactoe.menu.GameMenuChooseLevel;
+import tictactoe.menu.GameMenuNameField;
+import tictactoe.menu.GameMenuOpponentName;
+import tictactoe.menu.GameMenuPlayAgainst;
+import tictactoe.menu.GameMenuPlayTill;
+import tictactoe.menu.GameMenuSetFirst;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import tictactoe.game.Board;
+import tictactoe.game.Bot;
+import tictactoe.game.Constants;
+import tictactoe.game.GameLogic;
+import tictactoe.game.HumanPlayer;
+import tictactoe.game.Player;
 
 /**
  *
@@ -41,7 +54,7 @@ public class GameMenu extends JPanel {
     private GameMenuChooseLevel botOpponent;
     private GameMenuPlayTill playTill;
     private GameMenuSetFirst setFirst;
-    CardLayout cardLayout;
+    private CardLayout cardLayout;
     
     private JPanel cards;
     
@@ -80,14 +93,17 @@ public class GameMenu extends JPanel {
     
     public Box setUpMenu() {
         Box alignPanels = new Box(BoxLayout.Y_AXIS);
+        alignPanels.setBorder(BorderFactory.createEtchedBorder());
         alignPanels.setPreferredSize(new Dimension(Constants.WIDTH, Constants.HEIGHT));
         alignPanels.add(title);
+        title.setAlignmentX(this.getAlignmentX() - title.getWidth() / 2);
         alignPanels.add(gettingName);
         alignPanels.add(playAgainst);
         alignPanels.add(cards);
         alignPanels.add(playTill);
         alignPanels.add(setFirst);
         alignPanels.add(startGame);
+        startGame.setAlignmentX(this.getAlignmentX() - startGame.getWidth() / 2);
         alignPanels.setVisible(true);
         return alignPanels;
     }
@@ -95,17 +111,6 @@ public class GameMenu extends JPanel {
     public void passVariables(GameLogic logic) {
         // Passing first player's name
         logic.getPlayer1().setName(gettingName.getEnteredName());
-        
-        
-        // Passing opponent of the player
-//        if (playAgainst.isHumanPlayerTicked()) {
-//            logic.setPlayer2(HUMAN, null);
-//            
-//            // Passing second player's name
-//            logic.getPlayer2().setName(humanOpponent.getOpponentName());
-//        } else {
-//            logic.setPlayer2(BOT, botOpponent.giveLevel().getSelectedItem().toString());
-//        }
 
         // Who starts the game
         logic.setFirstTurn(setFirst.isFirstPlayerTurn());
@@ -114,7 +119,7 @@ public class GameMenu extends JPanel {
         logic.setMaxResult(playTill.getMaxWins());
     }
     
-    public Player passPlayer(Board board) {
+    public Player passPlayer(Board board) throws FileNotFoundException {
         Player player;
         
         // Passing opponent of the player

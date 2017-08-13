@@ -3,8 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.game.HumanPlayer;
+import tictactoe.game.Player;
+import tictactoe.game.Square;
+import tictactoe.game.SquareListener;
+import tictactoe.menu.GameInfo;
+import tictactoe.menu.GameMenu;
+import tictactoe.menu.Panel;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.Collections;
@@ -36,27 +43,16 @@ public class GameLogic extends JPanel {
         createGame();
     }
     
-    public void createGame() {
-//        board = new Board();
-//        board.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.7), Constants.HEIGHT));
-//        board.setLayout(new GridLayout(3, 3, 30, 30));
-
+    public final void createGame() {
         info = new GameInfo();
         add(board);
         add(info);
 
         player1 = new HumanPlayer();
-//        player2 = new Bot(board, Constants.IMPOSSIBLE);
         player1.setToDrawX();
-//        player2.setToDrawO();
-//        whoseTurn = player1;
-//                System.out.println(player1.getName());
 
         numberOfMoves = 0;
         maxResult = 0;
-
-//        info.setTurnLabel(whoseTurn);
-//        info.setScores(player1, player2);
     }
 
     public void addSquareListeners() {
@@ -125,10 +121,12 @@ public class GameLogic extends JPanel {
     }
 
     public void botMove(Square lastMove) {
+        System.out.println(whoseTurn.getClass().getName());
         if (whoseTurn instanceof Bot) {
+            System.out.println("bot exec");
             Bot bot = (Bot) whoseTurn;
             Square mark = bot.mark(lastMove);
-//            System.out.println("mark: " + mark);
+            System.out.println("mark: " + mark);
             if (mark != null) {
                 playerMove(mark);
             }
@@ -152,20 +150,19 @@ public class GameLogic extends JPanel {
     }
 
     public void playerMove(Square mark) {
-//        System.out.println(whoseTurn.getName());
         
         mark.setClicked();
         mark.setColor(whoseTurn.getColor());
-        
+                
         if (whoseTurn.isDrawingX()) {
             mark.setDrawnX();
         } else {
             mark.setDrawnO();
         }
-
+        
         whoseTurn.addToMarked(mark);
         Collections.sort(whoseTurn.getMarked());
-
+        
         if (mark.getClicked()) {
             mark.getButton().setIcon(whoseTurn.draw());
         }
@@ -184,21 +181,18 @@ public class GameLogic extends JPanel {
         info.setTurnLabel(whoseTurn);
         removeSquareListener(mark);
         
-        System.out.println(maxResult);
         
         if (maxResult == maxResult()) {
-            System.out.println("DONEEE");
+            info.showGameEnd(player1, player2);
         }
     }
     
     private void swapTurns() {
-//        if (numberOfMoves != Constants.TOTAL_SQUARES) {
             if (whoseTurn == player1) {
                 whoseTurn = player2;
             } else {
                 whoseTurn = player1;
             }
-//        }
     }
 
     public boolean isWinner() {
@@ -220,7 +214,6 @@ public class GameLogic extends JPanel {
         } else {
             max = player2.getScore();
         }
-                System.out.println("mAX FOR TWO: " + max);
         return max;
     }
     
@@ -245,7 +238,7 @@ public class GameLogic extends JPanel {
             botMove(null);
         }
         numberOfMoves = 0;
-        
+        info.setTurnLabel(whoseTurn);
     }
 
     public void continueGame() {
@@ -256,17 +249,11 @@ public class GameLogic extends JPanel {
         addSquareListeners();
         info.getPanel().doNotDisplayWinner();
         whoseTurn = firstPlayer;
-//        if (whoseTurn.getClass().getName().equals(Bot.class.getName())) {
-//            botMove(null);
-//        }
         if (whoseTurn instanceof Bot) {
             botMove(null);
         }
         numberOfMoves = 0;
-    }
-    
-    public void maxResult(int max) {
-        
+        info.setTurnLabel(whoseTurn);
     }
     
     public Player getPlayer1() {

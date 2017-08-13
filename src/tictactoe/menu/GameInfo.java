@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.menu;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
+import tictactoe.game.Constants;
+import tictactoe.game.Player;
 
 /**
  *
@@ -20,17 +23,36 @@ public class GameInfo extends JPanel {
     private static final String PLAY_AGAINST = "Play against: ";
     private static final String[] BOT_LEVELS = {"Easy", "Random", "Impossible to beat"};
     
-    private Panel panel;
+    private static final String GAME_INFO = "Game Info";
+    private static final String GAME_END = "Game End";
     
-    public GameInfo() {
-        
-          this.setPreferredSize(new Dimension((int) (Constants.WIDTH * 0.3), Constants.HEIGHT));
+    private Panel panel;
+    private GameEnd gameEnd;
+    
+    private CardLayout cardLayout;
+    private JPanel cards;
+    
+    public GameInfo() {            
+          panel = new Panel();
           this.setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
-            
-          panel = new Panel();
-          this.add(panel, gbc);
-
+//          this.add(panel, gbc);
+          
+          gameEnd = new GameEnd();
+          
+          cardLayout = new CardLayout();
+          cards = new JPanel(cardLayout);
+          cards.add(panel, GAME_INFO);
+          cards.add(gameEnd, GAME_END);
+          cardLayout.show(cards, GAME_INFO);
+          
+          
+          this.add(cards, gbc);
+    }
+    
+    public void showGameEnd(Player player1, Player player2) {
+        gameEnd.showScore(player1, player2);
+        cardLayout.show(cards, GAME_END);
     }
     
     public void setTurnLabel(Player player) {

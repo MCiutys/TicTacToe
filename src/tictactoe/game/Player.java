@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.game.Square;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;

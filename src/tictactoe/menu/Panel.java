@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.menu;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static tictactoe.TicTacToe.HEIGHT;
-import static tictactoe.TicTacToe.WIDTH;
+import tictactoe.game.ContinueGameListener;
+import tictactoe.game.GameLogic;
+import tictactoe.game.Player;
+import tictactoe.game.RestartButtonListener;
 
 /**
  *
@@ -33,28 +34,35 @@ public class Panel extends JPanel {
     private JLabel turn;
     private JLabel score;
     private JLabel winner;
-    private JButton restartButton;
-    private JButton continueButton;
+    private JLabel gameFinished;
+    private Button restartButton;
+    private Button continueButton;
     
     public Panel() {
         turn = new JLabel();
         turn.setFont(FONT);
         score = new JLabel();
         score.setFont(FONT);
-        restartButton = new JButton(RESTART_GAME);
-        continueButton = new JButton(CONTINUE_PLAYING);
+        gameFinished = new JLabel();
+        gameFinished.setFont(FONT);
+        restartButton = new Button(RESTART_GAME);
+        continueButton = new Button(CONTINUE_PLAYING);
         winner = new JLabel(WINNER_OF_GAME);
         winner.setFont(FONT);
         
+        setUp();
+        
+        continueButton.setVisible(false);
+        winner.setVisible(false);
+    }
+    
+    private void setUp() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         add(turn);
         add(score);
         add(restartButton);
         add(winner);
         add(continueButton);
-        
-        continueButton.setVisible(false);
-        winner.setVisible(false);
     }
     
     public void setTurn(Player player) {
@@ -89,5 +97,9 @@ public class Panel extends JPanel {
     public void doNotDisplayWinner() {
         winner.setVisible(false);
         continueButton.setVisible(false);
+    }
+    
+    public void gameFinished() {
+        gameFinished.setText("Game is finished");
     }
 }

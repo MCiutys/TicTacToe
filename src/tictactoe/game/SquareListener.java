@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.menu.GameInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

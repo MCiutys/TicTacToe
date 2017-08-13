@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,20 +17,18 @@ import java.util.Scanner;
 public class FileReader {
     
     
-    private static final String NAMES_FILE_NAME = "names.txt";
-    private static final File f = new File("C:\\Users\\Mantas\\Documents\\NetBeansProjects\\TicTacToe\\src\\tictactoe\\names.txt");
+    private static final File FILE = new File("C:\\Users\\Mantas\\Documents\\NetBeansProjects\\TicTacToe\\src\\tictactoe\\names.txt");
     
-    public static String chooseName() throws FileNotFoundException {
+    public static final String chooseName() throws FileNotFoundException {
         String name = "";
         Random rand = new Random();
         int n = 0;
         
-        for (Scanner scanner = new Scanner(f); scanner.hasNext(); ) {
+        for (Scanner scanner = new Scanner(FILE); scanner.hasNext(); ) {
             ++n;
             String line = scanner.nextLine();
             if (rand.nextInt(n) == 0) {
                 name = line;
-                System.out.println(line);
             }
         }
         return name;

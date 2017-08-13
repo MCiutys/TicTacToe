@@ -1,8 +1,9 @@
-package tictactoe;
+package tictactoe.game;
 
 
+import tictactoe.game.Square;
 import java.awt.Font;
-import tictactoe.TicTacToe;
+import tictactoe.game.TicTacToe;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -66,6 +67,7 @@ public final class Constants {
     
     // For Game Menu
     public static final Font MENU_FONT = new Font("Times New Roman", Font.BOLD, 32);
+    public static final Font INFO_FONT = new Font("Times New Roman", Font.BOLD, 20);
 
 
 }

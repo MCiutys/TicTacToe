@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.game.Constants;
+import tictactoe.game.Square;
+import tictactoe.game.TicTacToe;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,19 +16,20 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel {
     
-    private static final int BOARD_WIDTH = (int) (TicTacToe.WIDTH * 0.7);
-    private static final int VERTICAL_LINE_LENGTH = (int) (TicTacToe.WIDTH * 0.5);
-    private static final int HORIZONTAL_LINE_LENGTH = (int) (TicTacToe.HEIGHT * 0.8);
-    private static final int STROKE_WIDTH = 5;
+    private final Square[] squares;
     
-    private Square[] squares;
-    
+    /**
+     *
+     */
     public Board() {
         squares = new Square[Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES];
         addButtons();
     }
     
-    public void addButtons() {
+    /**
+     *
+     */
+    public final void addButtons() {
         for (int i = 0; i < Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES; i++) {
                 Square square = new Square(i);
                 this.add(square.getButton());
@@ -38,16 +37,28 @@ public class Board extends JPanel {
         }
     }
     
+    /**
+     *
+     */
     public void clearBoard() {
         for (Square square : squares) {
             square.clearSquare();
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public Square[] getSquares() {
         return squares;
     }
     
+    /**
+     *
+     * @param sq
+     * @return
+     */
     public Square getSameFromBoard(Square sq) {
         for (Square s : squares) {
             if (s.compareTo(sq) == 0) {
@@ -57,6 +68,11 @@ public class Board extends JPanel {
         return null;
     }
     
+    /**
+     *
+     * @param s
+     * @return
+     */
     public boolean doesInclude(Square s) {
         for (Square sq : squares) {
             if (sq == s) {
@@ -66,6 +82,10 @@ public class Board extends JPanel {
         return false;
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Square> getFreeSquares() {
         ArrayList<Square> freeSquares = new ArrayList<>();
         for (Square square : squares) {
@@ -77,6 +97,10 @@ public class Board extends JPanel {
         return freeSquares;
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Square> getAllXs() {
         ArrayList<Square> xs = new ArrayList<>();
         for (Square square : squares) {
@@ -87,6 +111,10 @@ public class Board extends JPanel {
         return xs;
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Square> getAllOs() {
         ArrayList<Square> os = new ArrayList<>();
         for (Square square : squares) {
@@ -96,12 +124,6 @@ public class Board extends JPanel {
         }
         return os;
     }
-    
-//    public void setWhoseTurn(HumanPlayer p) {
-//        for (Square square : squares) {
-//            square.setWhoseTurn(p);
-//        }
-//    }
     
     public void setColor(Color c) {
         for (Square square : squares) {
@@ -113,16 +135,16 @@ public class Board extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(STROKE_WIDTH));
+        g2d.setStroke(new BasicStroke(Constants.STROKE_WIDTH));
         // Horiztontal lines
         g2d.drawLine(0, TicTacToe.HEIGHT / 3,
-                BOARD_WIDTH, TicTacToe.HEIGHT / 3);
+                Constants.BOARD_WIDTH, TicTacToe.HEIGHT / 3);
         g2d.drawLine(0, 2 * TicTacToe.HEIGHT / 3,
-                BOARD_WIDTH, 2 * TicTacToe.HEIGHT / 3);
+                Constants.BOARD_WIDTH, 2 * TicTacToe.HEIGHT / 3);
         // Vertical lines
-        g2d.drawLine(BOARD_WIDTH / 3, 0, BOARD_WIDTH / 3,
+        g2d.drawLine(Constants.BOARD_WIDTH / 3, 0, Constants.BOARD_WIDTH / 3,
                 TicTacToe.HEIGHT);
-        g2d.drawLine(2 * BOARD_WIDTH / 3, 0, 2 * BOARD_WIDTH / 3,
+        g2d.drawLine(2 * Constants.BOARD_WIDTH / 3, 0, 2 * Constants.BOARD_WIDTH / 3,
                 TicTacToe.HEIGHT);
         
     }

@@ -3,8 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.game.BoardAnalyzer;
+import tictactoe.game.Board;
+import tictactoe.game.Constants;
+import tictactoe.game.FileReader;
+import tictactoe.game.Player;
+import tictactoe.game.Square;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -15,16 +22,16 @@ import java.util.Random;
  */
 public class Bot extends Player {
     
-    private ArrayList<Square> notClicked;
+//    private ArrayList<Square> notClicked;
     private Board board;
     private String level;
     private boolean startsFirst;
-    private BoardAnalyzer analyzer;
+    private final BoardAnalyzer analyzer;
     
-    public Bot(Board board, String level, boolean startsFirst) {
+    public Bot(Board board, String level, boolean startsFirst) throws FileNotFoundException {
         super();
         this.board = board;
-        notClicked = board.getFreeSquares();
+//        notClicked = board.getFreeSquares();
         this.level = level;
         this.startsFirst = startsFirst;
         analyzer = new BoardAnalyzer(board);
@@ -44,14 +51,13 @@ public class Bot extends Player {
     }
     
     public Square mark(Square lastMove) {
-            
-            System.out.println("Bot marked");
-        
             if (null == level) {
                 return null;
             } else switch (level) {
                 case Constants.EASY:
-                    return board.getSameFromBoard(easyLevel());
+                    Square easy = easyLevel();
+                    System.out.println(easy);
+                    return board.getSameFromBoard(easy);
                 case Constants.RANDOM:
                     return board.getSameFromBoard(randomLevel());
                 case Constants.IMPOSSIBLE:
@@ -59,33 +65,42 @@ public class Bot extends Player {
                 default:
                     break;
             }
+            System.out.println("null is returned");
         return null;
     }
     
     public Square randomLevel() {
-        return getRandomSquare();
+        return analyzer.getRandomSquare();
     }
     
     public Square easyLevel() {
         Square block = isBlockRequired();
         Square finish = canFinish();
         
+        System.out.println("not stuck");
+                
         if (finish != null) {
-            return board.getSameFromBoard(anyExceptFor(finish));
+            return board.getSameFromBoard(analyzer.anyExceptFor(finish));
         }
         
         if (block != null) {
-            return board.getSameFromBoard(anyExceptFor(block));
+            return board.getSameFromBoard(analyzer.anyExceptFor(block));
         }
         
-        return getRandomSquare();
+        
+        return analyzer.getRandomSquare();
     }
     
     public Square impossibleLevel(Square lastOppMove) {
         int numberOfMoves = Constants.TOTAL_SQUARES - board.getFreeSquares().size();
-        
+                
         Square block = isBlockRequired();
         Square finish = canFinish();
+        Square trapOpponent = null;
+        
+        if (getMarked().size() == 2) {
+            trapOpponent = analyzer.createTwoXLines(this);
+        }
         
         // In case bot can win the game
         if (finish != null) {
@@ -97,6 +112,11 @@ public class Bot extends Player {
             return block;
         }
         
+       if (trapOpponent != null) {
+           return trapOpponent;
+       }
+                    
+        
         if (startsFirst) {
             if (numberOfMoves == 0) {
                 return analyzer.getCornerOrCenter();
@@ -107,7 +127,7 @@ public class Bot extends Player {
                     if (analyzer.isSquareEdge(lastOppMove)) {
                         return analyzer.getFreeCorner();
                     } else {
-                        return getRandomSquare();
+                        return analyzer.getRandomSquare();
                     }
                 } else {
                     if (analyzer.isSquareCorner(lastOppMove)) {
@@ -130,81 +150,21 @@ public class Bot extends Player {
         
         
         // It does not matter where you mark right now
-        return getRandomSquare();
-    }
-    
-    public Square getRandomSquare() {
-//        notClicked = board.getFreeSquares();
-        Random r = new Random();
-        int rand = r.nextInt(board.getFreeSquares().size());
-        return board.getFreeSquares().get(rand);
+        return analyzer.getRandomSquare();
     }
     
     public Square firstMove(Square lastOppMove) {
         // If player marks the corner, bot marks the center
-        if (isCornerMarked(lastOppMove)) {
+        if (analyzer.isCornerMarked(lastOppMove)) {
             return Constants.CENTER;
-        } else if (isEdgeMarked(lastOppMove)) {
-            return cornerNextToEdge(lastOppMove);
-        } else if (isCenterMarked(lastOppMove)) {
-            return getAnyCorner();
+        } else if (analyzer.isEdgeMarked(lastOppMove)) {
+            return analyzer.cornerNextToEdge(lastOppMove);
+        } else if (analyzer.isCenterMarked(lastOppMove)) {
+            return analyzer.getAnyCorner();
         }
         
         // Should never be executed
         return null;
-    }
-    
-    public boolean isCornerMarked(Square square) {
-        for (Square corner : Constants.CORNERS) {
-            if (corner.equals(square)) {
-//                System.out.println("CORNER MARKED");
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public boolean isEdgeMarked(Square square) {
-        for (Square edge : Constants.EDGES) {
-            if (edge.equals(square)) {
-//                System.out.println("EDGE MARKED");
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public boolean isCenterMarked(Square square) {
-        if (square.equals(Constants.CENTER)) {
-            return true;
-        }
-        return false;
-    }
-    
-    public Square cornerNextToEdge(Square edge) {
-        Random rand = new Random();
-        int randNumber = rand.nextInt(2);
-        // If edge is left or right
-        if (edge.equals(Constants.LEFT_EDGE) || edge.equals(Constants.RIGHT_EDGE)) {
-            if (randNumber == 0) {
-                return new Square(edge.getIndex() - 3);
-            } else {
-                return new Square(edge.getIndex() + 3);
-            }
-        } else {
-            if (randNumber == 0) {
-                return new Square(edge.getIndex() - 1);
-            } else {
-                return new Square(edge.getIndex() + 1);
-            }
-        }
-    }
-    
-    public Square getAnyCorner() {
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(4);
-        
-        return Constants.CORNERS[randomNumber];
     }
     
     public ArrayList<Square> getOpponentsSquares() {
@@ -221,18 +181,6 @@ public class Bot extends Player {
     public Square isBlockRequired() {
         ArrayList<Square> oppSquares = getOpponentsSquares();
         return finishOrBlock(oppSquares, getMarked());
-    }
-    
-    public Square anyExceptFor(Square square) {
-        Random r = new Random();
-        int rand = r.nextInt(board.getFreeSquares().size());  
-        
-        while (board.getFreeSquares().get(rand).equals(square)) {
-            rand =  r.nextInt(board.getFreeSquares().size()); 
-        }
-        
-        System.out.println(board.getFreeSquares().get(rand));
-        return board.getFreeSquares().get(rand);
     }
     
     public Square canFinish() {

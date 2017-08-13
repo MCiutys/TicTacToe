@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
+import tictactoe.menu.GameMenu;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -70,7 +74,11 @@ public class TicTacToe {
         @Override
         public void actionPerformed(ActionEvent e) {
             board = createBoard();
-            player = menu.passPlayer(board);
+            try {
+                player = menu.passPlayer(board);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             game = new GameLogic(player, board);
             panels.add(game);

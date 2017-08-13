@@ -1,6 +1,7 @@
-package tictactoe;
+package tictactoe.game;
 
 
+import tictactoe.game.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;

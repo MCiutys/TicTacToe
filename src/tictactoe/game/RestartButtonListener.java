@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe;
+package tictactoe.game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,19 +12,18 @@ import java.awt.event.ActionListener;
  *
  * @author Mantas
  */
-public class ContinueGameListener implements ActionListener {
+public class RestartButtonListener implements ActionListener {
     
-    private final GameLogic logic;
+    private final GameLogic gameLogic;
     
-    public ContinueGameListener(GameLogic gameLogic) {
-        logic = gameLogic;
+    public RestartButtonListener(GameLogic logic) {
+        gameLogic = logic;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        logic.removeSquareListeners();
-        logic.continueGame();
+        gameLogic.removeSquareListeners();
+        gameLogic.restartGame();
     }
-    
     
 }
