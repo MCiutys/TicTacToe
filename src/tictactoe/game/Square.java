@@ -71,10 +71,7 @@ public class Square implements Comparable<Square> {
     }
     
     public boolean isDrawnO() {
-        if (isClicked && !isDrawnX) {
-            return true;
-        }
-        return false;
+        return isClicked && !isDrawnX;
     }
     
     public JToggleButton getButton() {

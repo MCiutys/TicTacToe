@@ -6,7 +6,6 @@
 package tictactoe.menu;
 
 import java.awt.Color;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 /**
@@ -17,9 +16,12 @@ public class Button extends JButton {
     
     public Button(String name) {
         super(name);
-        this.setBackground(Color.WHITE);
-//        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, CENTER, false));
-        this.setForeground(Color.BLACK);
+        setButton();
+    }
+    
+    private void setButton() {
+        setBackground(Color.WHITE);
+        setForeground(Color.BLACK);
     }
     
     

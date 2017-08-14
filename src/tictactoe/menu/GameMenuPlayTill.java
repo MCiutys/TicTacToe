@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import tictactoe.game.Constants;
 
 /**
  *
@@ -21,23 +22,21 @@ import javax.swing.JTextField;
 public class GameMenuPlayTill extends JPanel {
     
     private static final String PLAY = "Play till #wins : ";
-    private final Font NAME = new Font("Times New Roman", Font.BOLD, 32);
     
     private JLabel playTill;
     private JTextField number;
     
     public GameMenuPlayTill() {
         playTill = new JLabel(PLAY);
-        playTill.setFont(NAME);
+        playTill.setFont(Constants.MENU_FONT);
         number = new JTextField();
         number.setColumns(20);
-        number.setFont(NAME);
+        number.setFont(Constants.MENU_FONT);
         
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(number, BorderLayout.WEST);
         
-//        setLayout(new FlowLayout(FlowLayout.LEADING));
         setLayout(new BorderLayout());
         add(playTill, BorderLayout.WEST);
         add(panel, BorderLayout.EAST);
@@ -45,5 +44,19 @@ public class GameMenuPlayTill extends JPanel {
     
     public int getMaxWins() {
         return Integer.valueOf(number.getText());
+    }
+    
+    public boolean isValidInteger() {
+        
+        if (number.getText().isEmpty()) {
+            return false;
+        }
+        
+        for (int i = 0; i < number.getText().length(); i++) {
+            if (!Character.isDigit(number.getText().charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

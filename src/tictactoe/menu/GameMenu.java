@@ -5,13 +5,8 @@
  */
 package tictactoe.menu;
 
-import tictactoe.menu.GameMenuChooseLevel;
-import tictactoe.menu.GameMenuNameField;
-import tictactoe.menu.GameMenuOpponentName;
-import tictactoe.menu.GameMenuPlayAgainst;
-import tictactoe.menu.GameMenuPlayTill;
-import tictactoe.menu.GameMenuSetFirst;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -23,7 +18,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import tictactoe.game.Board;
 import tictactoe.game.Bot;
 import tictactoe.game.Constants;
@@ -46,14 +40,14 @@ public class GameMenu extends JPanel {
     public static final String HUMAN = "Player";
 
     
-    private JLabel title;
-    private GameMenuNameField gettingName;
+    private final JLabel title;
+    private final GameMenuNameField gettingName;
     private GameMenuPlayAgainst playAgainst;
-    private Button startGame;
-    private GameMenuOpponentName humanOpponent;
-    private GameMenuChooseLevel botOpponent;
-    private GameMenuPlayTill playTill;
-    private GameMenuSetFirst setFirst;
+    private final Button startGame;
+    private final GameMenuOpponentName humanOpponent;
+    private final GameMenuChooseLevel botOpponent;
+    private final GameMenuPlayTill playTill;
+    private final GameMenuSetFirst setFirst;
     private CardLayout cardLayout;
     
     private JPanel cards;
@@ -65,7 +59,7 @@ public class GameMenu extends JPanel {
         gettingName = new GameMenuNameField();
         playAgainst = new GameMenuPlayAgainst();
         startGame = new Button(START_GAME);
-        startGame.setFont(NAME);
+        startGame.setFont(Constants.MENU_FONT);
         humanOpponent = new GameMenuOpponentName();
         botOpponent = new GameMenuChooseLevel();
         playTill = new GameMenuPlayTill();
@@ -140,5 +134,31 @@ public class GameMenu extends JPanel {
     
     public GameMenuSetFirst setFirst() {
         return setFirst;
+    }
+    
+    public boolean canStartGame() {
+        
+        boolean canStart = true;
+        
+        if (gettingName.isFieldEmpty()) {
+            drawErrorBorder(gettingName);
+            canStart = false;
+        }
+        
+        if (playAgainst.isHumanPlayerTicked() && humanOpponent.isFieldEmpty()) {
+            drawErrorBorder(humanOpponent);
+            canStart = false;
+        }
+        
+        if (!playTill.isValidInteger()) {
+            drawErrorBorder(playTill);
+            canStart = false;
+        }
+        
+        return canStart;
+    }
+    
+    public void drawErrorBorder(JPanel panel) {
+        panel.setBorder(BorderFactory.createLineBorder(Color.RED));
     }
 }

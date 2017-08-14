@@ -74,6 +74,12 @@ public class GameLogic extends JPanel {
 
         // Continue Game Button Listener
         info.getPanel().addContinueListener(this);
+        
+        // Restart Game Button Listener in Game End Panel
+        info.getGameEnd().addRestartListener(this);
+        
+        // Exit Game Button Listener in Game End Panel
+        info.getGameEnd().addExitListener();
     }
 
     public ActionListener[] getSquareListener(Square square) {

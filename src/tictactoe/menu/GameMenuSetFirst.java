@@ -39,6 +39,7 @@ public class GameMenuSetFirst extends JPanel {
         ButtonGroup group = new ButtonGroup();
         group.add(player1);
         group.add(player2);
+        player1.setSelected(true);
         
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());

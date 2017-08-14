@@ -5,12 +5,14 @@
  */
 package tictactoe.menu;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import tictactoe.game.Constants;
+import tictactoe.game.ExitListener;
+import tictactoe.game.GameLogic;
 import tictactoe.game.Player;
+import tictactoe.game.RestartButtonListener;
 
 /**
  *
@@ -35,7 +37,6 @@ public class GameEnd extends JPanel {
         scoreInfo = new JLabel();
         playAgain = new Button(PLAY_AGAIN);
         exitGame = new Button(EXIT_GAME);
-        
         setUp();
     }
     
@@ -55,6 +56,14 @@ public class GameEnd extends JPanel {
                 player1.getScore() + ", " + player2.getName() + ": " +
                 player2.getScore();
         scoreInfo.setText(finalScoreInfo);
+    }
+    
+    public void addRestartListener(GameLogic logic) {
+        playAgain.addActionListener(new RestartButtonListener(logic));
+    }
+    
+    public void addExitListener() {
+        exitGame.addActionListener(new ExitListener());
     }
     
 }

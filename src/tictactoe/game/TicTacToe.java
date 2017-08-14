@@ -73,19 +73,21 @@ public class TicTacToe {
     ActionListener startButton = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            board = createBoard();
-            try {
-                player = menu.passPlayer(board);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
+            if (menu.canStartGame()) {
+                board = createBoard();
+                try {
+                    player = menu.passPlayer(board);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(TicTacToe.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                game = new GameLogic(player, board);
+                panels.add(game);
+                layout.next(panels);
+                menu.passVariables(game);
+                game.executeGame();
+                game.updateGameInfo();
             }
-            
-            game = new GameLogic(player, board);
-            panels.add(game);
-            layout.next(panels);
-            menu.passVariables(game);
-            game.executeGame();
-            game.updateGameInfo();
         }
         
     };

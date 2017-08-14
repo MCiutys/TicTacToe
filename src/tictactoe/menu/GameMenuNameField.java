@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -40,5 +39,9 @@ public class GameMenuNameField extends JPanel {
     
     public String getEnteredName() {
         return nameField.getText();
+    }
+    
+    public boolean isFieldEmpty() {
+        return nameField.getText().isEmpty();
     }
 }

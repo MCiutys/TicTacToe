@@ -6,11 +6,9 @@
 package tictactoe.menu;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
-import tictactoe.game.Constants;
 import tictactoe.game.Player;
 
 /**
@@ -18,10 +16,6 @@ import tictactoe.game.Player;
  * @author Mantas
  */
 public class GameInfo extends JPanel {
-    
-    private static final String TURN = " turn";
-    private static final String PLAY_AGAINST = "Play against: ";
-    private static final String[] BOT_LEVELS = {"Easy", "Random", "Impossible to beat"};
     
     private static final String GAME_INFO = "Game Info";
     private static final String GAME_END = "Game End";
@@ -33,10 +27,14 @@ public class GameInfo extends JPanel {
     private JPanel cards;
     
     public GameInfo() {            
-          panel = new Panel();
-          this.setLayout(new GridBagLayout());
+         
+          setUp();
+    }
+    
+    private void setUp() {
+        panel = new Panel();
+          setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
-//          this.add(panel, gbc);
           
           gameEnd = new GameEnd();
           
@@ -45,7 +43,6 @@ public class GameInfo extends JPanel {
           cards.add(panel, GAME_INFO);
           cards.add(gameEnd, GAME_END);
           cardLayout.show(cards, GAME_INFO);
-          
           
           this.add(cards, gbc);
     }
@@ -65,5 +62,9 @@ public class GameInfo extends JPanel {
     
     public Panel getPanel() {
         return panel;
+    }
+    
+    public GameEnd getGameEnd() {
+        return gameEnd;
     }
 }

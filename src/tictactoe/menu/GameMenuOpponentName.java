@@ -41,4 +41,8 @@ public class GameMenuOpponentName extends JPanel {
         return nameField.getText();
     }
     
+    public boolean isFieldEmpty() {
+        return nameField.getText().isEmpty();
+    }
+    
 }

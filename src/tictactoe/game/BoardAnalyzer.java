@@ -81,16 +81,9 @@ public class BoardAnalyzer {
     
     public Square createTwoXLines(Player player) {
         ArrayList<Square> playerMarked = player.getMarked();
-//        int counter = playerMarked.size();
-//        System.out.println(counter);
         ArrayList<Square> temp = new ArrayList<>();
         
-//        for (Square plMark : playerMarked) {
-            System.out.println("Loop thorugh: " + playerMarked);
-//            System.out.println("Board squares: " + board.getFreeSquares());
-//            counter = 2;
             for (Square boardSq : board.getFreeSquares()) {
-                System.out.println("Board square: " + boardSq);
                 int counter = 2;
                 ArrayList<Square> oneTwoSet = new ArrayList<>();
                 oneTwoSet.add(playerMarked.get(0));
@@ -98,39 +91,18 @@ public class BoardAnalyzer {
                 twoTwoSet.add(playerMarked.get(1));
                 oneTwoSet.add(boardSq);
                 twoTwoSet.add(boardSq);
-                System.out.println("First set: " + oneTwoSet);
-                System.out.println("Second set: " + twoTwoSet);
                 
                 boardLoop : for (Square[] winningSet : Constants.WINNING_SETS) {
                     List<Square> winSet = Arrays.asList(winningSet);
-//                    ArrayList<Square> twoSet = new ArrayList<>();
-//                    System.out.println("Win set: " + winSet);
-//                    twoSet.add(plMark);
-//                    twoSet.add(boardSq);
-//                    System.out.println("Two set: " + twoSet);
-//                    System.out.println(twoSet);
                     if (winSet.containsAll(twoTwoSet) || winSet.containsAll(oneTwoSet)) {
-//                        System.out.println("Two set: " + twoSet);
                         counter--;
-                        System.out.println("MATCHES TWO SET WINNING SET");
-                        System.out.println("Counter: " + counter);
-//                        temp.add(boardSq);
-//                        if (counter <= 0) {
-//                            System.out.println(boardSq);
-//                            return boardSq;
-//                            temp.add(boardSq);
-//                            counter = 2;
-//                        }
-//                        break boardLoop;
                         if (counter <= 0) {
                             temp.add(boardSq);
-                            System.out.println("Added to arraylist: " + boardSq);
                             break;
                         }
                     }
                 }
             }
-            System.out.println("--------------------------------------");
 //        }
         System.out.println(temp);
         
@@ -141,6 +113,29 @@ public class BoardAnalyzer {
             return temp.get(rand);
         }
         
+        return null;
+    }
+    
+    private ArrayList<Square> removeRedudant(ArrayList<Square> p, ArrayList<Square> playerMarked) {
+        ArrayList<Square> poss = p;
+        for (Square square : poss) {
+            ArrayList<Square> set1 = new ArrayList<>();
+            set1.add(square);
+            set1.add(playerMarked.get(0));
+            
+            ArrayList<Square> set2 = new ArrayList<>();
+            set2.add(square);
+            set2.add(playerMarked.get(1));
+            
+            for (Square[] winningSet : Constants.WINNING_SETS) {
+                List<Square> winSet = Arrays.asList(winningSet);
+                if (winSet.containsAll(set1)) {
+                    for (Square s : winningSet) {
+                        
+                    }
+                }
+            }
+        }
         return null;
     }
     
