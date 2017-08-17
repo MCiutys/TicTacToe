@@ -5,16 +5,15 @@
  */
 package tictactoe.game;
 
-import tictactoe.game.HumanPlayer;
-import tictactoe.game.Player;
-import tictactoe.game.Square;
-import tictactoe.game.SquareListener;
 import tictactoe.menu.GameInfo;
 import tictactoe.menu.GameMenu;
 import tictactoe.menu.Panel;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
@@ -86,30 +85,18 @@ public class GameLogic extends JPanel {
         return square.getButton().getActionListeners();
     }
 
-    public boolean didPlayerWin(Player player) {
+    public boolean didPlayerWin() {
 
-        int counter = 0;
-        outer:
+        List<Square> winSet = new ArrayList<>();
         for (Square[] winningSet : Constants.WINNING_SETS) {
-            counter = 0;
-            for (Square square : winningSet) {
-                for (int j = 0; j < whoseTurn.getMarked().size(); j++) {
-                    if (square.compareTo(whoseTurn.getMarked().get(j)) == 0) {
-                        counter++;
-                    }
-                    if (counter == 3) {
-                        break outer;
-                    }
-                }
+            winSet = Arrays.asList(winningSet);
+            if (whoseTurn.getMarked().containsAll(winSet)) {
+                board.setWinningPoints(winningSet);
+                repaint();
+                return true;
             }
         }
-
-        if (counter == 3) {
-            whoseTurn.increaseScore();
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     public void executeGame() {
@@ -142,6 +129,7 @@ public class GameLogic extends JPanel {
     public Board getBoard() {
         return board;
     }
+   
 
     public void removeSquareListeners() {
         for (Square square : board.getSquares()) {
@@ -203,7 +191,8 @@ public class GameLogic extends JPanel {
 
     public boolean isWinner() {
         boolean isWinner = false;
-        if (didPlayerWin(player1) || didPlayerWin(player2)) {
+        if (didPlayerWin()) {
+            whoseTurn.increaseScore();
             isWinner = true;
         }
         return isWinner;

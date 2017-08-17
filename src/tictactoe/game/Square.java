@@ -40,12 +40,20 @@ public class Square implements Comparable<Square> {
         button.setFocusPainted(false);
     }
     
+    public int getCenterX() {
+        return button.getX() + button.getWidth() / 2;
+    }
+    
+    public int getCenterY() {
+        return button.getY() + button.getHeight() / 2;
+    }
+    
     public void clearSquare() {
         isClicked = false;
         isDrawnX = false;
         button.setIcon(null);
     }
-    
+        
     public int getIndex() {
         return index;
     }
@@ -121,10 +129,7 @@ public class Square implements Comparable<Square> {
             return false;
         }
         final Square other = (Square) obj;
-        if (this.index != other.index) {
-            return false;
-        }
-        return true;
+        return this.index == other.index;
     }
     
     

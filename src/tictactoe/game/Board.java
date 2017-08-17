@@ -1,12 +1,10 @@
 package tictactoe.game;
 
-import tictactoe.game.Constants;
-import tictactoe.game.Square;
-import tictactoe.game.TicTacToe;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -17,12 +15,14 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
     
     private final Square[] squares;
+    private final Square[] winningPoints;
     
     /**
      *
      */
     public Board() {
         squares = new Square[Constants.HORIZONTAL_SQUARES * Constants.VERTICAL_SQUARES];
+        winningPoints = new Square[3];
         addButtons();
     }
     
@@ -44,6 +44,7 @@ public class Board extends JPanel {
         for (Square square : squares) {
             square.clearSquare();
         }
+        resetWinningPoints();
     }
     
     /**
@@ -132,9 +133,13 @@ public class Board extends JPanel {
     }
     
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paint(Graphics g) {
+        super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON);
+        
         g2d.setStroke(new BasicStroke(Constants.STROKE_WIDTH));
         // Horiztontal lines
         g2d.drawLine(0, TicTacToe.HEIGHT / 3,
@@ -146,6 +151,63 @@ public class Board extends JPanel {
                 TicTacToe.HEIGHT);
         g2d.drawLine(2 * Constants.BOARD_WIDTH / 3, 0, 2 * Constants.BOARD_WIDTH / 3,
                 TicTacToe.HEIGHT);
+                
+        drawWinningLine(g2d);
+    }
+    
+    public void drawWinningLine(Graphics2D g2d) {
         
+        g2d.setStroke(new BasicStroke(Constants.STROKE_WIDTH * 2));
+        
+        if (winningPoints.length == 3 && winningPoints[0] != null) {
+            Square firstSq = getSameFromBoard(winningPoints[0]);
+            Square secondSq = getSameFromBoard(winningPoints[1]);
+            Square thirdSq = getSameFromBoard(winningPoints[2]);
+            
+            int offsetWidth = firstSq.getButton().getWidth() / 2;
+            int offsetHeight = firstSq.getButton().getHeight() / 2;
+            
+            int differenceX = Math.abs(firstSq.getCenterX() - secondSq.getCenterX());
+            int differenceY = Math.abs(firstSq.getCenterY() - secondSq.getCenterY());
+            
+            
+            
+            // Vertical line
+            if (differenceX == 0) {
+                g2d.drawLine(firstSq.getCenterX(), firstSq.getCenterY() - offsetHeight, secondSq.getCenterX(), secondSq.getCenterY()+ offsetHeight);
+                g2d.drawLine(secondSq.getCenterX(), secondSq.getCenterY() - offsetHeight, thirdSq.getCenterX(), thirdSq.getCenterY() + offsetHeight);
+            }
+            
+            // Horizontal line
+            if (differenceY == 0) {
+                g2d.drawLine(firstSq.getCenterX() - offsetWidth, firstSq.getCenterY(), secondSq.getCenterX()+ offsetWidth, secondSq.getCenterY());
+                g2d.drawLine(secondSq.getCenterX() - offsetWidth, secondSq.getCenterY(), thirdSq.getCenterX() + offsetWidth, thirdSq.getCenterY());
+            }
+                        
+            // Diagonal line
+            if (differenceX != 0 && differenceY != 0) {
+                if (firstSq.getCenterX() < secondSq.getCenterX()) {
+                    g2d.drawLine(firstSq.getCenterX() - offsetWidth, firstSq.getCenterY() - offsetHeight,
+                            secondSq.getCenterX(), secondSq.getCenterY());
+                    g2d.drawLine(secondSq.getCenterX(), secondSq.getCenterY(),
+                            thirdSq.getCenterX()+ offsetWidth, thirdSq.getCenterY() + offsetHeight);   
+                } else {
+                    g2d.drawLine(firstSq.getCenterX() + offsetWidth, firstSq.getCenterY() - offsetHeight,
+                            secondSq.getCenterX(), secondSq.getCenterY());
+                    g2d.drawLine(secondSq.getCenterX(), secondSq.getCenterY(),
+                            thirdSq.getCenterX() - offsetWidth, thirdSq.getCenterY() + offsetHeight);
+                }
+            }
+        }
+    }
+    
+    public void setWinningPoints(Square[] points) {
+        System.arraycopy(points, 0, winningPoints, 0, points.length);
+    }
+    
+    public void resetWinningPoints() {
+        for (int i = 0; i < winningPoints.length; i++) {
+            winningPoints[i] = null;
+        }
     }
 }

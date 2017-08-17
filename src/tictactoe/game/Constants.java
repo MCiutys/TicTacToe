@@ -33,16 +33,18 @@ public final class Constants {
     public static final int STROKE_WIDTH = 5;
     
     // Winning sets
-    public static final Square[] SET_1 = {new Square(0), new Square(1), new Square(2)};
-    public static final Square[] SET_2 = {new Square(3), new Square(4), new Square(5)};
-    public static final Square[] SET_3 = {new Square(6), new Square(7), new Square(8)};
-    public static final Square[] SET_4 = {new Square(0), new Square(3), new Square(6)};
-    public static final Square[] SET_5 = {new Square(1), new Square(4), new Square(7)};
-    public static final Square[] SET_6 = {new Square(2), new Square(5), new Square(8)};
-    public static final Square[] SET_7 = {new Square(0), new Square(4), new Square(8)};
-    public static final Square[] SET_8 = {new Square(2), new Square(4), new Square(6)};
+    public static final Square[] TOP_HORIZONTAL = {new Square(0), new Square(1), new Square(2)};
+    public static final Square[] MIDDLE_HORIZONTAL = {new Square(3), new Square(4), new Square(5)};
+    public static final Square[] BOTTOM_HORIZONTAL = {new Square(6), new Square(7), new Square(8)};
+    public static final Square[] LEFT_VERTICAL = {new Square(0), new Square(3), new Square(6)};
+    public static final Square[] MIDDLE_VERTICAL = {new Square(1), new Square(4), new Square(7)};
+    public static final Square[] RIGHT_VERTICAL = {new Square(2), new Square(5), new Square(8)};
+    public static final Square[] L_TO_R_DIAGONAL = {new Square(0), new Square(4), new Square(8)};
+    public static final Square[] R_TO_L_DIAGONAL = {new Square(2), new Square(4), new Square(6)};
 
-    public static final Square[][] WINNING_SETS = {SET_1, SET_2, SET_3, SET_4, SET_5, SET_6, SET_7, SET_8};
+    public static final Square[][] WINNING_SETS = {TOP_HORIZONTAL, MIDDLE_HORIZONTAL
+            , BOTTOM_HORIZONTAL, LEFT_VERTICAL, MIDDLE_VERTICAL, RIGHT_VERTICAL, L_TO_R_DIAGONAL
+            , R_TO_L_DIAGONAL};
     
     // For Bot
     public static final Square CENTER = new Square(4);
