@@ -91,7 +91,7 @@ public class GameLogic extends JPanel {
         for (Square[] winningSet : Constants.WINNING_SETS) {
             winSet = Arrays.asList(winningSet);
             if (whoseTurn.getMarked().containsAll(winSet)) {
-                board.setWinningPoints(winningSet);
+                board.setWinningSquares(winningSet);
                 repaint();
                 return true;
             }

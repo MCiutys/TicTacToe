@@ -168,13 +168,12 @@ public class Bot extends Player {
     }
     
     public ArrayList<Square> getOpponentsSquares() {
-        ArrayList<Square> opponentSquares;// = new ArrayList<>();
-        if (this.isDrawingX()) {
+        ArrayList<Square> opponentSquares;
+        if (isDrawingX()) {
             opponentSquares = board.getAllOs();
         } else {
             opponentSquares = board.getAllXs();
         }
-//        System.out.println("Opponent squares: " + opponentSquares);
         return opponentSquares;
     }
     
