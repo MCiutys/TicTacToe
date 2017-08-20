@@ -200,6 +200,7 @@ public class Bot extends Player {
                 }
             }
             
+            
             if (temp.size() == 1) {
                   if (!squares2.contains(temp.get(0))) {
                       return board.getSameFromBoard(temp.get(0));
