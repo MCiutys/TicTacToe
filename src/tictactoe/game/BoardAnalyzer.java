@@ -111,62 +111,65 @@ public class BoardAnalyzer {
      * @return
      */
     public Square createTwoXLines(Player player) {
-        ArrayList<Square> playerMarked = player.getMarked();
-        ArrayList<Square> temp = new ArrayList<>();
         
-            for (Square boardSq : board.getFreeSquares()) {
-                int counter = 2;
-                ArrayList<Square> oneTwoSet = new ArrayList<>();
-                oneTwoSet.add(playerMarked.get(0));
-                ArrayList<Square> twoTwoSet = new ArrayList<>();
-                twoTwoSet.add(playerMarked.get(1));
-                oneTwoSet.add(boardSq);
-                twoTwoSet.add(boardSq);
-                
-                boardLoop : for (Square[] winningSet : Constants.WINNING_SETS) {
-                    List<Square> winSet = Arrays.asList(winningSet);
-                    if (winSet.containsAll(twoTwoSet) || winSet.containsAll(oneTwoSet)) {
-                        counter--;
-                        if (counter <= 0) {
-                            temp.add(boardSq);
-                            break;
-                        }
-                    }
-                }
-            }
-//        }
-        
-        Random r = new Random();
-        if (!temp.isEmpty()) {
-            int rand = r.nextInt(temp.size());
-            System.out.println(temp.get(rand));
-            return temp.get(rand);
-        }
-        
-        return null;
-    }
-    
-    private ArrayList<Square> removeRedudant(ArrayList<Square> p, ArrayList<Square> playerMarked) {
-        ArrayList<Square> poss = p;
-        for (Square square : poss) {
-            ArrayList<Square> set1 = new ArrayList<>();
-            set1.add(square);
-            set1.add(playerMarked.get(0));
+        ArrayList<Square> list = new ArrayList<>();
+        for (Square freeSquare : board.getFreeSquares()) {
+            ArrayList<Square> one = new ArrayList<>();
+            ArrayList<Square> two = new ArrayList<>();
             
-            ArrayList<Square> set2 = new ArrayList<>();
-            set2.add(square);
-            set2.add(playerMarked.get(1));
+            one.add(freeSquare);
+            one.add(player.getMarked().get(0));
+            
+            two.add(freeSquare);
+            two.add(player.getMarked().get(1));
+            
+            
+            int counter = 2;
             
             for (Square[] winningSet : Constants.WINNING_SETS) {
                 List<Square> winSet = Arrays.asList(winningSet);
-                if (winSet.containsAll(set1)) {
-                    for (Square s : winningSet) {
-                        
+                
+                if (winSet.containsAll(one)) {
+                    if (!isLastElementOccupied(winSet, one)) {
+                        counter--;
+                    }
+                }
+                
+                if (winSet.containsAll(two)) {
+                    if (!isLastElementOccupied(winSet, two)) {
+                        counter--;
                     }
                 }
             }
+            
+            if (counter == 0) {
+                list.add(freeSquare);
+            }
         }
-        return null;
+        
+        System.out.println(list);
+        
+        Random random = new Random();
+        int rand = random.nextInt(list.size());
+        if (!list.isEmpty()) {
+            return list.get(rand);
+        } else {
+            return null;
+        }
+    }
+    
+    // Checks if final element from the winning set is occupied
+    private boolean isLastElementOccupied(List<Square> winSet, ArrayList<Square> twoElements) {
+        Square lastOne = winSet.get(0);
+        
+        for (Square square : winSet) {
+            if (!twoElements.contains(square)) {
+                lastOne = square;
+            }
+        }
+        
+        lastOne = board.getSameFromBoard(lastOne);
+        return lastOne.getClicked();
     }
     
     /**

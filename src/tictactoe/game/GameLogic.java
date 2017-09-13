@@ -108,18 +108,15 @@ public class GameLogic extends JPanel {
         addOtherListeners();
                 
         // If bot has first turn, execute it
-        if (whoseTurn == player2/* && player2.getClass().getName().equals(Bot.class.getName())*/) {
+        if (whoseTurn == player2) {
             botMove(null);
         }
     }
 
     public void botMove(Square lastMove) {
-        System.out.println(whoseTurn.getClass().getName());
         if (whoseTurn instanceof Bot) {
-            System.out.println("bot exec");
             Bot bot = (Bot) whoseTurn;
             Square mark = bot.mark(lastMove);
-            System.out.println("mark: " + mark);
             if (mark != null) {
                 playerMove(mark);
             }
@@ -179,6 +176,7 @@ public class GameLogic extends JPanel {
         if (maxResult == maxResult()) {
             info.showGameEnd(player1, player2);
         }
+        
     }
     
     private void swapTurns() {
